@@ -25,3 +25,41 @@ php -S localhost:9876
 
 * Inside VSCode, you can also use the "PHP Server" extension to start the web server
 
+## DEV SETPS
+
+### V0.0.1
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    └── public
+        └── index.php
+
+```
+
+### V0.0.2
+
+* add css and js files
+* add image
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    └── public
+        ├── assets
+        │   ├── photo-1.jpg
+        │   ├── site.css
+        │   └── site.js
+        └── index.php
+
+3 directories, 6 files
+```
+
+## CREDITS
+
+* Thanks to Pexels for the free images
+
