@@ -59,6 +59,47 @@ php -S localhost:9876
 3 directories, 6 files
 ```
 
+# V0.0.3
+
+* add UIkit
+* https://getuikit.com/docs/introduction
+* UIkit is a lightweight and modular front-end framework for developing fast and powerful web interfaces.
+* UIkit is very easy to use and customize. It is based on a flexible grid system, various components, useful JavaScript extensions and works seamlessly on all major browsers, tablets and phones.
+
+
+* https://getuikit.com/
+* as we now have lot of files, add subfolder for css, js and media
+    * unzip uikit.zip files in folders assets/css and assets/js
+    * move site.css in assets/css
+    * move site.js in assets/js
+    * move photo-1.jpg in assets/media
+* edit index.php to use UIkit
+* to check UIkit os working, add a sortable list in index.php
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   └── uikit.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        └── index.php
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images
