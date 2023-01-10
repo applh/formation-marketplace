@@ -226,6 +226,66 @@ php framework.php code myclass
 
 ```
 
+### V0.1.3 ADD MODEL CLASS AND 404 TEMPLATE
+
+* add web class and method web::json
+    * to send json data to the client
+* add model class
+    * to manage data
+    * to manage database
+
+* load posts and pages from json files
+    * posts are stored in `my-data/posts.json`
+    * pages are stored in `my-data/pages.json`
+    * 👍 Projects can now have their own data 
+        * TODO: There's still lots of further work...
+
+* add cli command cli::install
+    * to create the `my-data` folder
+    * to create the `my-data/posts.json` file
+    * to create the `my-data/pages.json` file
+
+* note: files or folders starting with `my-` are ignored by git
+    * there's a `.gitignore` file in the root folder
+
+```
+php framework.php install
+```
+
+* add 404 template
+    * `templates/404.php`
+
+#### PHP CODE STRUCTURE
+
+* MVC structure is emerging
+    * Model `class/model.php`
+    * View  `templates` and `class/web.php`
+    * Controller `framework.php`
+
+* note: only framework files
+
+```
+.
+└── marketplace
+    ├── public
+    │   ├── assets
+    │   └── index.php
+    ├── framework.php
+    ├── class
+    │   ├── cli.php
+    │   ├── model.php
+    │   ├── sample.php
+    │   └── web.php
+    ├── my-data
+    │   ├── pages.json
+    │   └── posts.json
+    └── templates
+        ├── 404.php
+        ├── api.php
+        ├── home.php
+        └── post.php
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Your MarketPlace with PHP+SQL">
-    <title>Your MarketPlace with PHP+SQL</title>
+    <title><?php echo $title ?> | Your MarketPlace with PHP+SQL</title>
 
     <link rel="stylesheet" href="/assets/css/uikit.min.css">
     <link rel="stylesheet" href="/assets/css/site.css">
@@ -50,6 +50,14 @@
             </div>
         </section>
     </main>
+
+    <footer>
+        <nav>
+            <a href="/">home</a>
+            <a href="/credits">credits</a>
+        </nav>
+        <p>Your MarketPlace &copy; 2023</p>
+    </footer>
 
 </body>
 

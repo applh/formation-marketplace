@@ -51,4 +51,33 @@ class cli
         }
         print_r($logs);
     }
+
+    static function install ()
+    {
+        // create my-data folder
+        $path_data = framework::$root . "/my-data";
+        if (!file_exists($path_data)) {
+            mkdir($path_data);
+            // make sure it is writable
+            chmod($path_data, 0777);
+        }
+
+        // post data
+        $path_posts = $path_data . "/posts.json";
+        // if file not exists, create it
+        // export the data from model::$posts in json format
+        if (!file_exists($path_posts)) {
+            $data = json_encode(model::$posts, JSON_PRETTY_PRINT);
+            file_put_contents($path_posts, $data);
+        }
+
+        // page data
+        $path_pages = $path_data . "/pages.json";
+        // if file not exists, create it
+        // export the data from model::$pages in json format
+        if (!file_exists($path_pages)) {
+            $data = json_encode(model::$pages, JSON_PRETTY_PRINT);
+            file_put_contents($path_pages, $data);
+        }
+    }
 }

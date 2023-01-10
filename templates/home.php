@@ -31,7 +31,7 @@
         <section>
             <h2>RECENT POSTS (PHP loop) 🔥</h2>
             <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
-                <?php foreach ($posts as $key => $post) : ?>
+                <?php foreach (model::$posts as $key => $post) : ?>
                     <?php extract($post) ?>
                     <div>
                         <div class="uk-card uk-card-default">
@@ -56,7 +56,12 @@
             <!-- Vue will teleport posts here -->
         </div>
     </main>
+
     <footer>
+        <nav>
+            <a href="/">home</a>
+            <a href="/credits">credits</a>
+        </nav>
         <p>Your MarketPlace &copy; 2023</p>
     </footer>
 
