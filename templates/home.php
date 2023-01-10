@@ -1,7 +1,3 @@
-<?php
-
-
-?>
 <!doctype html>
 <html lang="en">
 
@@ -26,8 +22,6 @@
             <a href="/">home</a>
         </nav>
     </header>
-
-<?php if ($filename === "index") : ?> 
            
     <main>
         <h1>Your MarketPlace</h1>
@@ -125,38 +119,6 @@
         // mount vue app
         app.mount('#app');
     </script>
-
-<?php else: ?>
-
-    <main>
-        <h1><?php echo $title ?></h1>
-        <section class="uk-section">
-            <div class="uk-container">
-
-                <h2><?php echo $title ?></h2>
-                <div class="" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
-                    <div>
-                        <div class="uk-card uk-card-default">
-                            <div class="uk-card-media-top" uk-lightbox>
-                                <a href="<?php echo $image ?>" alt="...">
-                                    <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
-                                </a>
-                            </div>
-                            <div class="uk-card-body">
-                                <h3 class="uk-card-title">
-                                    <a href="/<?php echo $uri ?>"><?php echo $title ?></a>
-                                </h3>
-                                <p><?php echo $description ?></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-    </main>
-
-<?php endif ?>
 
 </body>
 
