@@ -1,4 +1,6 @@
 <?php
+// load framework
+require __DIR__ . "/../framework.php";
 
 $now = date("Y-m-d H:i:s");
 
@@ -31,71 +33,28 @@ $now = date("Y-m-d H:i:s");
         <img src="/assets/media/photo-1.jpg" alt="">
 
         <section>
-            <h2>UIkit: sortable</h2>
-            <div uk-sortable>
-                <div>
-                    <p>ITEM 1</p>
-                </div>
-                <div>
-                    <p>ITEM 2</p>
-                </div>
-                <div>
-                    <p>ITEM 3</p>
-                </div>
+            <h2>RECENT POSTS (PHP loop) 🔥</h2>
+            <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+                <?php foreach ($posts as $post) : ?>
+                    <?php extract($post) ?>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top">
+                                <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title"><?php echo $title ?></h3>
+                                <p><?php echo $description ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>
 
-
-        <section>
-            <h2>UIkit: card</h2>
-            <div class="uk-child-width-1-4@m" uk-grid uk-sortable>
-                <div>
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Media Top</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Media Top</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Media Top</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">Media Bottom</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
-                        </div>
-                        <div class="uk-card-media-bottom">
-                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <div class="box-posts">
+            <!-- Vue will teleport posts here -->
+        </div>
     </main>
     <footer>
         <p>Your MarketPlace &copy; 2023</p>
@@ -107,22 +66,26 @@ $now = date("Y-m-d H:i:s");
         <section>
             <p>{{ api_feedback }}</p>
         </section>
-        <section>
-            <h2>UIkit: card</h2>
-            <div class="uk-child-width-1-4@m" uk-grid uk-sortable>
-                <div v-for="post in posts">
-                    <div class="uk-card uk-card-default">
-                        <div class="uk-card-media-top">
-                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
-                        </div>
-                        <div class="uk-card-body">
-                            <h3 class="uk-card-title">{{ post.title }}</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+
+        <Teleport to=".box-posts">
+            <section>
+                <h2>RECENT POSTS (list by Vue / loop + teleport) 🔥</h2>
+                <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+                    <div v-for="post in posts">
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top">
+                                <img :src="post.image" width="1800" height="1200" alt="">
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title">{{ post.title }}</h3>
+                                <p>{{ post.description }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </Teleport>
+
     </template>
     <script type="module">
         // import vue js 3
@@ -131,19 +94,7 @@ $now = date("Y-m-d H:i:s");
 
         // separate data for better readability
         const appData = {
-            posts: [{
-                    title: 'Post 1'
-                },
-                {
-                    title: 'Post 2'
-                },
-                {
-                    title: 'Post 3'
-                },
-                {
-                    title: 'Post 4'
-                }
-            ],
+            posts: [],
             api_feedback: '...',
             message: 'Hello Vue 3!'
         };
@@ -156,6 +107,7 @@ $now = date("Y-m-d H:i:s");
                 let response = await fetch('/api.php');
                 let json = await response.json();
                 this.api_feedback = json.feedback ?? 'xxx';
+                this.posts = json.posts ?? [];
             }
         });
 

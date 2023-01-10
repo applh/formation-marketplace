@@ -1,4 +1,6 @@
 <?php
+// load framework
+require __DIR__ . "/../framework.php";
 
 $now = date("Y-m-d H:i:s");
 
@@ -6,6 +8,7 @@ $now = date("Y-m-d H:i:s");
 $data = [
     "now" => $now,
     "feedback" => "api is ready ($now)",
+    "posts" => $posts,
     "request" => $_REQUEST,
 ];
 

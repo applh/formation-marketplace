@@ -369,7 +369,177 @@ echo json_encode($data);
 
 ```
 
+### V0.0.7 PHP LOOP OR VUE LOOP + TELEPORT
+
+* Objectives
+    * create a PHP loop (better SEO)
+    * create a Vue loop (better UX)
+
+* add file framework.php
+    * centralize the array of posts  
+    * add require in files index.php and api.php
+  
+* add code in file index.php
+    * loop in PHP
+    * loop in Vue + teleport
+    * https://vuejs.org/guide/built-ins/teleport.html
+    * https://vuejs.org/guide/essentials/list.html
+
+```html
+    <main>
+        <h1>Your MarketPlace</h1>
+        <p>Current time: <?php echo $now; ?></p>
+        <img src="/assets/media/photo-1.jpg" alt="">
+
+        <section>
+            <h2>RECENT POSTS (PHP loop) 🔥</h2>
+            <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+                <?php foreach ($posts as $post) : ?>
+                    <?php extract($post) ?>
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top">
+                                <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title"><?php echo $title ?></h3>
+                                <p><?php echo $description ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+
+        <div class="box-posts">
+            <!-- Vue will teleport posts here -->
+        </div>
+    </main>
+    <footer>
+        <p>Your MarketPlace &copy; 2023</p>
+    </footer>
+
+    <!-- add vuejs 3 app -->
+    <div id="app"></div>
+    <template id="appTemplate">
+        <section>
+            <p>{{ api_feedback }}</p>
+        </section>
+
+        <Teleport to=".box-posts">
+            <section>
+                <h2>RECENT POSTS (list by Vue / loop + teleport) 🔥</h2>
+                <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+                    <div v-for="post in posts">
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top">
+                                <img :src="post.image" width="1800" height="1200" alt="">
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title">{{ post.title }}</h3>
+                                <p>{{ post.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </Teleport>
+
+    </template>
+    <script type="module">
+        // import vue js 3
+        import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
+        // create vue app
+
+        // separate data for better readability
+        const appData = {
+            posts: [],
+            api_feedback: '...',
+            message: 'Hello Vue 3!'
+        };
+
+        const app = Vue.createApp({
+            template: '#appTemplate',
+            data: () => appData,
+            async created() {
+                // fetch data from api
+                let response = await fetch('/api.php');
+                let json = await response.json();
+                this.api_feedback = json.feedback ?? 'xxx';
+                this.posts = json.posts ?? [];
+            }
+        });
+
+        // mount vue app
+        app.mount('#app');
+    </script>
+
+```
+
+### CODE ORGANISATION
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    ├── framework.php
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   ├── uikit.min.js
+        │   │   └── vue.esm-browser.prod.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        ├── api.php
+        └── index.php
+
+6 directories, 17 files
+```
+
+* framework.php
+
+```php
+<?php
+
+$posts = [
+    [
+        'title' => 'Post 1',
+        'image' => 'https://picsum.photos/id/1/640/640',
+        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+    [
+        'title' => 'Post 2',
+        'image' => 'https://picsum.photos/id/2/640/640',
+        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+    [
+        'title' => 'Post 3',
+        'image' => 'https://picsum.photos/id/3/640/640',
+        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+    [
+        'title' => 'Post 4',
+        'image' => 'https://picsum.photos/id/4/640/640',
+        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+];
+
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images
+* Thanks to Lorem Picsum for the free images
+
 
