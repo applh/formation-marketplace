@@ -40,5 +40,32 @@ $now = date("Y-m-d H:i:s");
     <footer>
         <p>Your MarketPlace &copy; 2023</p>
     </footer>
+
+    <!-- add vuejs 3 app -->
+    <div id="app"></div>
+    <template id="appTemplate">
+        <p>{{ message }}</p>
+        <div uk-sortable>
+            <div><p>ITEM 1 {{ message }}</p></div>
+            <div><p>ITEM 2 {{ message }}</p></div>
+            <div><p>ITEM 3 {{ message }}</p></div>
+        </div>
+    </template>
+    <script type="module">
+        // import vue js 3
+        import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
+        // create vue app
+        const app = Vue.createApp({
+            template: '#appTemplate',
+            data() {
+                return {
+                    message: 'Hello Vue 3!'
+                }
+            }
+        });
+        // mount vue app
+        app.mount('#app');
+    </script>
+
 </body>
 </html>
