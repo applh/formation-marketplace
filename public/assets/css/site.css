@@ -1,3 +1,8 @@
+main, section, footer {
+    padding-top:3rem;
+    padding-bottom:3rem;
+}
+
 h1, h2, h3, p {
     text-align: center;
 }

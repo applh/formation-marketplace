@@ -288,6 +288,85 @@ echo json_encode($data);
         │       └── photo-1.jpg
         ├── api.php
         └── index.php
+
+6 directories, 16 files
+```
+
+### V0.0.6 UIKIT + CARDS + SORTABLE + VUE LOOP
+
+* add UIkit cards + sortable in index.php
+    * https://getuikit.com/docs/card
+    * https://getuikit.com/docs/sortable
+
+* Vue list rendering (loop)
+    * https://vuejs.org/guide/essentials/list.html
+
+* UIkit and Vue are working together so easily 😍
+
+```html
+    <!-- add vuejs 3 app -->
+    <div id="app"></div>
+    <template id="appTemplate">
+        <section>
+            <p>{{ api_feedback }}</p>
+        </section>
+        <section>
+            <h2>UIkit: card</h2>
+            <div class="uk-child-width-1-4@m" uk-grid uk-sortable>
+                <div v-for="post in posts">
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">{{ post.title }}</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <script type="module">
+        // import vue js 3
+        import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
+        // create vue app
+
+        // separate data for better readability
+        const appData = {
+            posts: [
+                {
+                    title: 'Post 1'
+                },
+                {
+                    title: 'Post 2'
+                },
+                {
+                    title: 'Post 3'
+                },
+                {
+                    title: 'Post 4'
+                }
+            ],
+            api_feedback: '...',
+            message: 'Hello Vue 3!'
+        };
+
+        const app = Vue.createApp({
+            template: '#appTemplate',
+            data: () => appData,
+            async created() {
+                // fetch data from api
+                let response = await fetch('/api.php');
+                let json = await response.json();
+                this.api_feedback = json.feedback ?? 'xxx';
+            }
+        });
+
+        // mount vue app
+        app.mount('#app');
+    </script>
+
 ```
 
 ## CREDITS

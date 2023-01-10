@@ -5,6 +5,7 @@ $now = date("Y-m-d H:i:s");
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +20,7 @@ $now = date("Y-m-d H:i:s");
     <script src="/assets/js/uikit-icons.min.js"></script>
     <script type="module" src="/assets/js/site.js"></script>
 </head>
+
 <body>
     <header>
 
@@ -29,13 +31,71 @@ $now = date("Y-m-d H:i:s");
         <img src="/assets/media/photo-1.jpg" alt="">
 
         <section>
-            <h2>test UIkit</h2>
+            <h2>UIkit: sortable</h2>
             <div uk-sortable>
-                <div><p>ITEM 1</p></div>
-                <div><p>ITEM 2</p></div>
-                <div><p>ITEM 3</p></div>
+                <div>
+                    <p>ITEM 1</p>
+                </div>
+                <div>
+                    <p>ITEM 2</p>
+                </div>
+                <div>
+                    <p>ITEM 3</p>
+                </div>
             </div>
         </section>
+
+
+        <section>
+            <h2>UIkit: card</h2>
+            <div class="uk-child-width-1-4@m" uk-grid uk-sortable>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Media Top</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Media Top</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Media Top</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Media Bottom</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                        <div class="uk-card-media-bottom">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
     <footer>
         <p>Your MarketPlace &copy; 2023</p>
@@ -44,12 +104,25 @@ $now = date("Y-m-d H:i:s");
     <!-- add vuejs 3 app -->
     <div id="app"></div>
     <template id="appTemplate">
-        <p>{{ api_feedback }}</p>
-        <div uk-sortable>
-            <div><p>ITEM 1 {{ message }}</p></div>
-            <div><p>ITEM 2 {{ message }}</p></div>
-            <div><p>ITEM 3 {{ message }}</p></div>
-        </div>
+        <section>
+            <p>{{ api_feedback }}</p>
+        </section>
+        <section>
+            <h2>UIkit: card</h2>
+            <div class="uk-child-width-1-4@m" uk-grid uk-sortable>
+                <div v-for="post in posts">
+                    <div class="uk-card uk-card-default">
+                        <div class="uk-card-media-top">
+                            <img src="/assets/media/photo-1.jpg" width="1800" height="1200" alt="">
+                        </div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">{{ post.title }}</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </template>
     <script type="module">
         // import vue js 3
@@ -58,6 +131,19 @@ $now = date("Y-m-d H:i:s");
 
         // separate data for better readability
         const appData = {
+            posts: [{
+                    title: 'Post 1'
+                },
+                {
+                    title: 'Post 2'
+                },
+                {
+                    title: 'Post 3'
+                },
+                {
+                    title: 'Post 4'
+                }
+            ],
             api_feedback: '...',
             message: 'Hello Vue 3!'
         };
@@ -72,10 +158,11 @@ $now = date("Y-m-d H:i:s");
                 this.api_feedback = json.feedback ?? 'xxx';
             }
         });
-        
+
         // mount vue app
         app.mount('#app');
     </script>
 
 </body>
+
 </html>
