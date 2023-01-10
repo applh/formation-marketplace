@@ -1,6 +1,4 @@
 <?php
-// load framework
-require __DIR__ . "/../framework.php";
 
 $now = date("Y-m-d H:i:s");
 

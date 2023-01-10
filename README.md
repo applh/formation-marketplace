@@ -667,6 +667,105 @@ post.php?index=2
 6 directories, 17 files
 ```
 
+### V0.1.1 ADD PHP CLASSES
+
+* We need to split the code in multiple files
+* to make it more readable
+* to make it more maintainable
+* to make it more scalable
+
+* PHP has 2 powerful features to split code in multiple files
+    * templates
+    * classes
+
+* Re-organize the code in multiple files
+* Target MVC Structure
+    * Model
+    * View
+    * Controller
+
+* View
+    * `index.php` and `api.php` are now templates
+        * for better clarity `index.php` is renamed `home.php`
+    * note: URL for API was `api.php` and is now `api`
+
+#### PHP CLASS AUTOLOAD
+
+* PHP has a very powerful feature to load classes automatically
+    * better memory management
+    * better performance
+    * better scalability
+
+* https://www.php.net/manual/en/function.spl-autoload-register.php
+
+* Crazy things: PHP autoloader is a available since PHP5.1+ (2005)
+* But other languages still don't have this feature 😱
+    * JavaScript
+    * Python
+    * Java
+    * ...
+
+* Important: Setup PHP autoloader as soon as possible 🔥
+
+#### PHP CLI
+
+* PHP can also be used as a scripting language
+* PHP can be used to create command line interface (CLI)
+    * PHP can be used to automate tasks
+
+#### CODE STRUCTURE
+
+* One single entry point for the PHP server
+    * `public/index.php`
+* One single entry point for the PHP framework
+    * `framework.php`
+* 2 modes are possible to activate the framework
+    * web server
+    * command line interface (CLI)
+
+* PHP files are organized in 3 folders
+    * `class`
+    * `templates`
+    * `public`
+
+```
+.
+└── marketplace
+    ├── Coding-recipes.md
+    ├── LICENSE
+    ├── README.md
+    ├── public
+    │   ├── assets
+    │   │   ├── css
+    │   │   │   ├── site.css
+    │   │   │   ├── uikit-rtl.css
+    │   │   │   ├── uikit-rtl.min.css
+    │   │   │   ├── uikit.css
+    │   │   │   └── uikit.min.css
+    │   │   ├── js
+    │   │   │   ├── site.js
+    │   │   │   ├── uikit-icons.js
+    │   │   │   ├── uikit-icons.min.js
+    │   │   │   ├── uikit.js
+    │   │   │   ├── uikit.min.js
+    │   │   │   └── vue.esm-browser.prod.min.js
+    │   │   └── media
+    │   │       └── photo-1.jpg
+    │   └── index.php
+    ├── framework.php
+    ├── templates
+    │   ├── api.php
+    │   └── home.php
+    └── class
+        └── cli.php
+
+8 directories, 20 files
+```
+
+### ARCHIVES
+
+* V0.x read the [CHANGELOG](coding-recipes-v0.md)
+
 ## CREDITS
 
 * Thanks to Pexels for the free images
