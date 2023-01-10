@@ -20,6 +20,7 @@
     <header>
         <nav>
             <a href="/">home</a>
+            <a href="/#form-contact">contact us</a>
         </nav>
     </header>
     
@@ -55,6 +56,7 @@
         <nav>
             <a href="/">home</a>
             <a href="/credits">credits</a>
+            <a href="/#form-contact">contact us</a>
         </nav>
         <p>Your MarketPlace &copy; 2023</p>
     </footer>

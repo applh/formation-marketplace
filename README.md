@@ -286,6 +286,44 @@ php framework.php install
         └── post.php
 ```
 
+### V0.1.4 ADD CONTACT FORM + AJAX
+
+* add UIkit + Vue contact form
+* add Vue ajax to send the form
+* add PHP api_public to process the form
+
+* SECURITY: receivign data from outside can always be dangerous
+    * TODO: sanitize and validate data (email, ...)
+    * strip_tags
+    * ...
+
+
+#### PHP CODE STRUCTURE
+
+```
+.
+├── my-data
+│   ├── form-contact.txt
+│   ├── pages.json
+│   └── posts.json
+├── public
+│   ├── assets
+│   └── index.php
+├── framework.php
+├── class
+│   ├── api_public.php
+│   ├── cli.php
+│   ├── model.php
+│   ├── sample.php
+│   └── web.php
+└── templates
+    ├── 404.php
+    ├── api.php
+    ├── home.php
+    └── post.php
+
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

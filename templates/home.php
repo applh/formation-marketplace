@@ -20,9 +20,10 @@
     <header>
         <nav>
             <a href="/">home</a>
+            <a href="/#form-contact">contact us</a>
         </nav>
     </header>
-           
+
     <main>
         <h1>Your MarketPlace</h1>
         <p>Current time: <?php echo $now; ?></p>
@@ -58,9 +59,16 @@
     </main>
 
     <footer>
+
+        <section class="uk-section" id="form-contact">
+            <div class="uk-container box-form-contact">
+            </div>
+        </section>
+
         <nav>
             <a href="/">home</a>
             <a href="/credits">credits</a>
+            <a href="/#form-contact">contact us</a>
         </nav>
         <p>Your MarketPlace &copy; 2023</p>
     </footer>
@@ -95,6 +103,28 @@
             </section>
         </Teleport>
 
+        <Teleport to=".box-form-contact">
+            <p>contact us</p>
+            <form @submit.prevent="send_form($event)">
+                <div class="uk-margin">
+                    <input class="uk-input" type="text" name="name" required placeholder="Your Name" aria-label="Your Name">
+                </div>
+                <div class="uk-margin">
+                    <input class="uk-input" type="email" name="email" required placeholder="Your Email" aria-label="Your Email">
+                </div>
+                <div class="uk-margin">
+                    <textarea class="uk-textarea" rows="10" name="message" required placeholder="Your Message" aria-label="Your Message"></textarea>
+                </div>
+                <div class="uk-margin">
+                    <button type="submit" class="uk-button uk-button-default">SEND YOUR MESSAGE</button>
+                </div>
+                <input type="hidden" name="m" value="contact">
+                <div class="uk-margin">
+                    {{ api_feedback }}                
+                </div>
+            </form>
+        </Teleport>
+
     </template>
     <script type="module">
         // import vue js 3
@@ -103,7 +133,7 @@
 
         // separate data for better readability
         const appData = {
-            api_uri : '/api',   // using PHP framework router
+            api_uri: '/api', // using PHP framework router
             posts: [],
             api_feedback: '...',
             message: 'Hello Vue 3!'
@@ -111,13 +141,33 @@
 
         const app = Vue.createApp({
             template: '#appTemplate',
-            data: () => appData,
+            data: () => appData,            
             async created() {
+                let data = new FormData();
+                data.append('m', 'posts');
                 // fetch data from api
-                let response = await fetch(this.api_uri);
+                let response = await fetch(this.api_uri, {
+                        method: 'POST',
+                        body: data
+                });
                 let json = await response.json();
                 this.api_feedback = json.feedback ?? 'xxx';
                 this.posts = json.posts ?? [];
+            },
+            methods: {
+                async send_form(event) {
+                    event.preventDefault();
+                    let form = event.target;
+                    // console.log(form);
+                    let data = new FormData(form);
+                    let response = await fetch(this.api_uri, {
+                        method: 'POST',
+                        body: data
+                    });
+                    let json = await response.json();
+                    console.log(json);
+                    this.api_feedback = json.feedback ?? 'xxx';
+                }
             }
         });
 

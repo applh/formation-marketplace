@@ -34,12 +34,16 @@ class framework
         $now = date("Y-m-d H:i:s");
         $uri = $_SERVER["REQUEST_URI"] ?? "";
 
+        // get $path from $uri (no query string or fragment)
+        extract(parse_url($uri));
+        $path ??= "";
+
         // note: 
         // with PHP local server, url http://localhost:8000 will give $uri = "/"
         // with PHP local server, url http://localhost:8000/ will give $uri = "/"
         // and http://localhost:8000/index.php will give $uri = "/index.php"
 
-        $myuri = trim($uri, "/");
+        $myuri = trim($path, "/");
         $myuri = $myuri ?: "index.php";
 
         // parse the uri
