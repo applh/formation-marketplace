@@ -44,7 +44,7 @@ $now = date("Y-m-d H:i:s");
     <!-- add vuejs 3 app -->
     <div id="app"></div>
     <template id="appTemplate">
-        <p>{{ message }}</p>
+        <p>{{ api_feedback }}</p>
         <div uk-sortable>
             <div><p>ITEM 1 {{ message }}</p></div>
             <div><p>ITEM 2 {{ message }}</p></div>
@@ -55,14 +55,24 @@ $now = date("Y-m-d H:i:s");
         // import vue js 3
         import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
         // create vue app
+
+        // separate data for better readability
+        const appData = {
+            api_feedback: '...',
+            message: 'Hello Vue 3!'
+        };
+
         const app = Vue.createApp({
             template: '#appTemplate',
-            data() {
-                return {
-                    message: 'Hello Vue 3!'
-                }
+            data: () => appData,
+            async created() {
+                // fetch data from api
+                let response = await fetch('/api.php');
+                let json = await response.json();
+                this.api_feedback = json.feedback ?? 'xxx';
             }
         });
+        
         // mount vue app
         app.mount('#app');
     </script>

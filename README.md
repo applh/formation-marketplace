@@ -27,7 +27,7 @@ php -S localhost:9876
 
 ## DEV SETPS
 
-### V0.0.1
+### V0.0.1 INIT
 
 ```
 .
@@ -39,7 +39,7 @@ php -S localhost:9876
 
 ```
 
-### V0.0.2
+### V0.0.2 BASIC HTML, CSS, JS
 
 * add css and js files
 * add image
@@ -59,7 +59,7 @@ php -S localhost:9876
 3 directories, 6 files
 ```
 
-# V0.0.3
+# V0.0.3 UIKIT
 
 * add UIkit
 * https://getuikit.com/docs/introduction
@@ -99,9 +99,11 @@ php -S localhost:9876
         │   └── media
         │       └── photo-1.jpg
         └── index.php
+
+6 directories, 14 files
 ```
 
-# V0.0.4
+# V0.0.4 VUEJS
 
 * add VueJS by CDN
 * https://cdnjs.com/libraries/vue
@@ -162,6 +164,130 @@ php -S localhost:9876
         // mount vue app
         app.mount('#app');
     </script>
+```
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   ├── uikit.min.js
+        │   │   └── vue.esm-browser.prod.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        └── index.php
+
+6 directories, 15 files
+
+uikit.min.js is about 132 KB
+vue.esm-browser.prod.min.js is about 126 KB
+
+uikit.min.css is about 256 KB
+
+```
+
+# V0.0.5 PHP API + JS FETCH (AJAX)
+
+* add api.php
+
+```php
+<?php
+
+$now = date("Y-m-d H:i:s");
+
+// PHP associative array
+$data = [
+    "now" => $now,
+    "feedback" => "api is ready ($now)",
+    "request" => $_REQUEST,
+];
+
+// important to set the content type to JSON
+header("Content-Type: application/json");
+// convert PHP array to JSON
+echo json_encode($data);
+
+```
+* add ajax fetch call in Vue `created` callback
+
+```html
+    <!-- add vuejs 3 app -->
+    <div id="app"></div>
+    <template id="appTemplate">
+        <p>{{ api_feedback }}</p>
+        <div uk-sortable>
+            <div><p>ITEM 1 {{ message }}</p></div>
+            <div><p>ITEM 2 {{ message }}</p></div>
+            <div><p>ITEM 3 {{ message }}</p></div>
+        </div>
+    </template>
+    <script type="module">
+        // import vue js 3
+        import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
+        // create vue app
+
+        // separate data for better readability
+        const appData = {
+            api_feedback: '...',
+            message: 'Hello Vue 3!'
+        };
+
+        const app = Vue.createApp({
+            template: '#appTemplate',
+            data: () => appData,
+            async created() {
+                // fetch data from api
+                let response = await fetch('/api.php');
+                let json = await response.json();
+                this.api_feedback = json.feedback ?? 'xxx';
+            }
+        });
+        
+        // mount vue app
+        app.mount('#app');
+    </script>
+
+```
+
+* check the page index.php is working ok
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   ├── uikit.min.js
+        │   │   └── vue.esm-browser.prod.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        ├── api.php
+        └── index.php
 ```
 
 ## CREDITS
