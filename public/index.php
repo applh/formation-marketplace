@@ -3,6 +3,28 @@
 require __DIR__ . "/../framework.php";
 
 $now = date("Y-m-d H:i:s");
+$uri = $_SERVER["REQUEST_URI"] ?? "";
+
+
+// note: 
+// with PHP local server, url http://localhost:8000 will give $uri = "/"
+// with PHP local server, url http://localhost:8000/ will give $uri = "/"
+// and http://localhost:8000/index.php will give $uri = "/index.php"
+
+$myuri = trim($uri, "/");
+$myuri = $myuri ?: "index.php";
+
+// parse the uri
+extract(pathinfo($myuri));
+$filename ??= "";
+
+// debug to the header
+header("X-URI: $uri,$filename");
+
+if ($filename != "index") {
+    $post = $posts[$filename] ?? [];
+    extract($post);    
+}
 
 ?>
 <!doctype html>
@@ -29,6 +51,9 @@ $now = date("Y-m-d H:i:s");
             <a href="/">home</a>
         </nav>
     </header>
+
+<?php if ($filename === "index") : ?> 
+           
     <main>
         <h1>Your MarketPlace</h1>
         <p>Current time: <?php echo $now; ?></p>
@@ -37,7 +62,7 @@ $now = date("Y-m-d H:i:s");
         <section>
             <h2>RECENT POSTS (PHP loop) 🔥</h2>
             <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
-                <?php foreach ($posts as $index => $post) : ?>
+                <?php foreach ($posts as $key => $post) : ?>
                     <?php extract($post) ?>
                     <div>
                         <div class="uk-card uk-card-default">
@@ -48,7 +73,7 @@ $now = date("Y-m-d H:i:s");
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">
-                                    <a href="/post.php?index=<?php echo $index ?>"><?php echo $title ?></a>
+                                    <a href="/<?php echo $uri ?>"><?php echo $title ?></a>
                                 </h3>
                                 <p><?php echo $description ?></p>
                             </div>
@@ -86,7 +111,7 @@ $now = date("Y-m-d H:i:s");
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">
-                                    <a :href="'/post.php?index=' + index">{{ post.title }}</a>
+                                    <a :href="'/' + post.uri">{{ post.title }}</a>
                                 </h3>
                                 <p>{{ post.description }}</p>
                             </div>
@@ -124,6 +149,38 @@ $now = date("Y-m-d H:i:s");
         // mount vue app
         app.mount('#app');
     </script>
+
+<?php else: ?>
+
+    <main>
+        <h1><?php echo $title ?></h1>
+        <section class="uk-section">
+            <div class="uk-container">
+
+                <h2><?php echo $title ?></h2>
+                <div class="" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
+                    <div>
+                        <div class="uk-card uk-card-default">
+                            <div class="uk-card-media-top" uk-lightbox>
+                                <a href="<?php echo $image ?>" alt="...">
+                                    <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                                </a>
+                            </div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title">
+                                    <a href="/<?php echo $uri ?>"><?php echo $title ?></a>
+                                </h3>
+                                <p><?php echo $description ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+<?php endif ?>
 
 </body>
 

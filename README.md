@@ -601,6 +601,72 @@ post.php?index=2
 6 directories, 18 files
 ```
 
+### V0.1.0 ROUTER: ADD DYNAMIC ROUTING BY URI
+
+* To get better SEO
+* we migrate URLs to dynamic routing
+
+```
+/post-1
+/post-2
+/post-3
+...
+```
+
+* With PHP local server, each URL without extension is sent to index.php
+
+* With most Web Hosting, the Server stack is using Apache
+* Apache can be configured to send each URL without file correspondance to index.php
+    * You have to add a `.htaccess` file in the public folder of your project
+    * We can use the WordPress `.htaccess` file as a template
+    * https://fr.wordpress.org/support/article/htaccess/
+
+
+#### CODE ORGANIZATION
+
+* We don't need post.php anymore
+* but index.php is now a double template in one file
+    * for the home page
+    * for the single post page
+    * index.php is mixing a lot of code and responsabilities
+        * html
+        * php
+        * javascript
+* We now need to split the code in multiple files
+    * to make it more readable
+    * to make it more maintainable
+    * to make it more scalable
+
+        
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    ├── framework.php
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   ├── uikit.min.js
+        │   │   └── vue.esm-browser.prod.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        ├── api.php
+        └── index.php
+
+6 directories, 17 files
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images
