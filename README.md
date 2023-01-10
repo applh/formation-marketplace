@@ -546,6 +546,61 @@ Human beings are visual creatures. We are attracted to images and videos. We are
 * https://getuikit.com/docs/lightbox
 * https://getuikit.com/docs/scrollspy
 
+### V0.0.9 SEO: ADD TEMPLATE FOR SINGLE POST PAGES
+
+* SEO is better with multiple pages on your website
+* Search engines like Google will index each page on your website
+
+* Each page can have a different title and description
+* Each page can have a different image
+* Each page can have a different URL
+* Each page can have a different content
+
+* Historic tehcnique is to use a PHP file as template
+* Dynamic routing is sent to PHP server by GET parameter
+* BUT: SEO is bad with GET parameters
+    * we will need to use `slug` with keywords in each URL 
+    * (and remove GET parameters)
+
+```
+post.php?index=0
+post.php?index=1
+post.php?index=2
+...
+```
+
+#### CODE ORGANIZATION
+
+```
+.
+└── marketplace
+    ├── LICENSE
+    ├── README.md
+    ├── framework.php
+    └── public
+        ├── assets
+        │   ├── css
+        │   │   ├── site.css
+        │   │   ├── uikit-rtl.css
+        │   │   ├── uikit-rtl.min.css
+        │   │   ├── uikit.css
+        │   │   └── uikit.min.css
+        │   ├── js
+        │   │   ├── site.js
+        │   │   ├── uikit-icons.js
+        │   │   ├── uikit-icons.min.js
+        │   │   ├── uikit.js
+        │   │   ├── uikit.min.js
+        │   │   └── vue.esm-browser.prod.min.js
+        │   └── media
+        │       └── photo-1.jpg
+        ├── api.php
+        ├── index.php
+        └── post.php
+
+6 directories, 18 files
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

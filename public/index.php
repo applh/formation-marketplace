@@ -25,7 +25,9 @@ $now = date("Y-m-d H:i:s");
 
 <body>
     <header>
-
+        <nav>
+            <a href="/">home</a>
+        </nav>
     </header>
     <main>
         <h1>Your MarketPlace</h1>
@@ -35,7 +37,7 @@ $now = date("Y-m-d H:i:s");
         <section>
             <h2>RECENT POSTS (PHP loop) 🔥</h2>
             <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
-                <?php foreach ($posts as $post) : ?>
+                <?php foreach ($posts as $index => $post) : ?>
                     <?php extract($post) ?>
                     <div>
                         <div class="uk-card uk-card-default">
@@ -45,7 +47,9 @@ $now = date("Y-m-d H:i:s");
                                 </a>
                             </div>
                             <div class="uk-card-body">
-                                <h3 class="uk-card-title"><?php echo $title ?></h3>
+                                <h3 class="uk-card-title">
+                                    <a href="/post.php?index=<?php echo $index ?>"><?php echo $title ?></a>
+                                </h3>
                                 <p><?php echo $description ?></p>
                             </div>
                         </div>
@@ -73,7 +77,7 @@ $now = date("Y-m-d H:i:s");
             <section>
                 <h2>RECENT POSTS (list by Vue / loop + teleport) 🔥</h2>
                 <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
-                    <div v-for="post in posts">
+                    <div v-for="(post, index) in posts">
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top" uk-lightbox>
                                 <a :href="post.image" alt="...">
@@ -81,7 +85,9 @@ $now = date("Y-m-d H:i:s");
                                 </a>
                             </div>
                             <div class="uk-card-body">
-                                <h3 class="uk-card-title">{{ post.title }}</h3>
+                                <h3 class="uk-card-title">
+                                    <a :href="'/post.php?index=' + index">{{ post.title }}</a>
+                                </h3>
                                 <p>{{ post.description }}</p>
                             </div>
                         </div>
