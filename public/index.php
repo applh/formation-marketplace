@@ -30,17 +30,19 @@ $now = date("Y-m-d H:i:s");
     <main>
         <h1>Your MarketPlace</h1>
         <p>Current time: <?php echo $now; ?></p>
-        <img src="/assets/media/photo-1.jpg" alt="">
+        <img src="/assets/media/photo-1.jpg" alt="" class="banner">
 
         <section>
             <h2>RECENT POSTS (PHP loop) 🔥</h2>
-            <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+            <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
                 <?php foreach ($posts as $post) : ?>
                     <?php extract($post) ?>
                     <div>
                         <div class="uk-card uk-card-default">
-                            <div class="uk-card-media-top">
-                                <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                            <div class="uk-card-media-top" uk-lightbox>
+                                <a href="<?php echo $image ?>" alt="...">
+                                    <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                                </a>
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title"><?php echo $title ?></h3>
@@ -70,11 +72,13 @@ $now = date("Y-m-d H:i:s");
         <Teleport to=".box-posts">
             <section>
                 <h2>RECENT POSTS (list by Vue / loop + teleport) 🔥</h2>
-                <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable>
+                <div class="uk-child-width-1-2@m uk-child-width-1-4@l" uk-grid uk-sortable uk-scrollspy="target: .uk-card-media-top; cls: uk-animation-slide-bottom; delay: 300">
                     <div v-for="post in posts">
                         <div class="uk-card uk-card-default">
-                            <div class="uk-card-media-top">
-                                <img :src="post.image" width="1800" height="1200" alt="">
+                            <div class="uk-card-media-top" uk-lightbox>
+                                <a :href="post.image" alt="...">
+                                    <img :src="post.image" width="1800" height="1200" alt="">
+                                </a>
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">{{ post.title }}</h3>

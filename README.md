@@ -25,7 +25,7 @@ php -S localhost:9876
 
 * Inside VSCode, you can also use the "PHP Server" extension to start the web server
 
-## DEV SETPS
+## CODING RECIPES
 
 ### V0.0.1 INIT
 
@@ -59,7 +59,7 @@ php -S localhost:9876
 3 directories, 6 files
 ```
 
-# V0.0.3 UIKIT
+### V0.0.3 UIKIT
 
 * add UIkit
 * https://getuikit.com/docs/introduction
@@ -103,7 +103,7 @@ php -S localhost:9876
 6 directories, 14 files
 ```
 
-# V0.0.4 VUEJS
+### V0.0.4 VUEJS
 
 * add VueJS by CDN
 * https://cdnjs.com/libraries/vue
@@ -199,7 +199,7 @@ uikit.min.css is about 256 KB
 
 ```
 
-# V0.0.5 PHP API + JS FETCH (AJAX)
+### V0.0.5 PHP API + JS FETCH (AJAX)
 
 * add api.php
 
@@ -476,7 +476,7 @@ echo json_encode($data);
 
 ```
 
-### CODE ORGANISATION
+#### CODE ORGANISATION
 
 ```
 .
@@ -536,6 +536,15 @@ $posts = [
 ];
 
 ```
+
+### V0.0.8 UIKIT / LIGHTBOX + SCROLLSPY
+
+Effects and animation are UX features that can make your website more attractive and engaging. UIkit provides a set of effects and animations that you can use to make your website more interactive.
+
+Human beings are visual creatures. We are attracted to images and videos. We are also attracted to movement. UIkit provides a set of effects and animations that you can use to make your website more interactive.
+
+* https://getuikit.com/docs/lightbox
+* https://getuikit.com/docs/scrollspy
 
 ## CREDITS
 

@@ -1,17 +1,28 @@
-main, section, footer {
-    padding-top:3rem;
-    padding-bottom:3rem;
+main,
+section,
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
 
-h1, h2, h3, p {
+h1,
+h2,
+h3,
+p {
     text-align: center;
 }
 
-h1, h2 {
-    padding-top:2rem;
-    padding-bottom:2rem;
+h1,
+h2 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 img {
     width: 100%;
+}
+
+.banner {
+    aspect-ratio: 16/8;
+    object-fit: cover;
 }
