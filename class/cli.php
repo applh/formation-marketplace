@@ -117,6 +117,14 @@ class cli
             chmod($path_class, 0777);
         }
 
+        // create my-data/templates folder if not exists
+        $path_templates = $path_data . "/templates";
+        if (!file_exists($path_templates)) {
+            mkdir($path_templates);
+            // make sure it is writable
+            chmod($path_templates, 0777);
+        }
+        
         // create sqlite database if not exists
         $path_db = os::v("db/sqlite/path") ?? $path_data . "/sqlite.db"; ;
 

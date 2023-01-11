@@ -497,6 +497,39 @@ php -m | grep sqlite
 11 directories, 40 files
 ```
 
+
+### V0.1.8 ADMIN PAGE / CRUD ON POSTS
+
+* quick version of CRUD on posts: only 1 form to do CUD
+    * create (no id)
+    * update (with id > 0)
+    * delete (with id > 0)
+* only one back method: `api_admin::cud_post`
+
+* debug and improvements
+    * add custom folder `my-data/templates`
+    * add template `adminer.php`
+    * https://www.adminer.org/en/extension/
+    * (note: sqlite file is relative to `/public` if PHP local server is executed from `/public`)
+
+#### ADMINER
+
+* Adminer is a full-featured database management tool written in PHP
+* Adminer is available for 
+    * MySQL, PostgreSQL, SQLite, 
+    * MS SQL, Oracle, Firebird, SimpleDB, 
+    * Elasticsearch and MongoDB
+    * ...
+
+* Adminer is available as a PHP file ready to deploy to the target server
+* Adminer is available as a single PHP file to be included in your application
+
+* Crazy thing:
+* SQLite database doesn't need user and password
+* But Adminer needs user and password
+    * HACK: override the method `login`
+    * https://www.adminer.org/en/extension/
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

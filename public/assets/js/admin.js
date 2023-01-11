@@ -13,6 +13,8 @@ if (box_vue) {
 
     // separate data for better readability
     const appData = {
+        cud_action_post: 'create',
+        admin_api_key: '',
         extra_js: [
             '/assets/js/uikit.min.js',
             // '/assets/js/uikit-icons.min.js',
@@ -75,6 +77,12 @@ if (box_vue) {
                 let json = await response.json();
                 console.log(json);
                 this.api_feedback = json.feedback ?? 'xxx';
+
+                if (json.posts) {
+                    // refresh posts
+                    this.posts = json.posts;
+                }
+
             }
         }
     });

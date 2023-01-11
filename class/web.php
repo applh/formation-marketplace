@@ -115,8 +115,22 @@ class web
         if (file_exists($template_path)) {
             include $template_path;
         }
+        else {
+            // check in $path_data/templates
+            $path_data = os::v("path_data");
+            $template_path = "$path_data/templates/$template.php";
+            if (file_exists($template_path)) {
+                include $template_path;
+            }
+        }
     }
 
+    static function input ($name, $default = "")
+    {
+        $value = $_REQUEST[$name] ?? $default;
+        return $value;
+    }
+    
     //_class_end_
 }
 
