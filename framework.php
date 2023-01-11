@@ -4,12 +4,20 @@
 class framework
 {
     static $root = __DIR__;
+    static $class_dirs = [
+        __DIR__ . "/class",
+        __DIR__ . "/my-data/class",
+    ];
 
     static function autoload($class)
     {
-        $file = __DIR__ . "/class/$class.php";
-        if (file_exists($file)) {
-            require $file;
+        // loop through the class directories
+        foreach (framework::$class_dirs as $dir) {
+            $file = "$dir/$class.php";
+            if (file_exists($file)) {
+                require $file;
+                return;
+            }
         }
     }
 
@@ -17,55 +25,25 @@ class framework
     {
         // setup class autoloader
         spl_autoload_register("framework::autoload");
+        // setup core config
+        $path_root = framework::$root;
+        os::v("root", $path_root);
+        os::v("path_data", "$path_root/my-data");
+        os::v("db/sqlite/path", "$path_root/my-data/sqlite.db");
+
+        // load the config file if exists
+        $path_config = "$path_root/my-data/config.php";
+
+        if (file_exists($path_config)) {
+            include $path_config;
+        }
 
         if (is_callable("index::web")) {
             // web server mode
-            framework::server();
+            web::server();
         } else {
             // cli mode
             cli::run();
-        }
-    }
-
-    static function server()
-    {
-        $root = framework::$root;
-
-        $now = date("Y-m-d H:i:s");
-        $uri = $_SERVER["REQUEST_URI"] ?? "";
-
-        // get $path from $uri (no query string or fragment)
-        extract(parse_url($uri));
-        $path ??= "";
-
-        // note: 
-        // with PHP local server, url http://localhost:8000 will give $uri = "/"
-        // with PHP local server, url http://localhost:8000/ will give $uri = "/"
-        // and http://localhost:8000/index.php will give $uri = "/index.php"
-
-        $myuri = trim($path, "/");
-        $myuri = $myuri ?: "index.php";
-
-        // parse the uri
-        extract(pathinfo($myuri));
-        $filename ??= "";
-
-        // default template
-        model::load();
-        $routes = model::$pages + model::$posts;
-        $route = $routes[$filename] ?? [];
-        $template = $route["template"] ?? "404";
-        
-        if ($template == "post") {
-            $post = $routes[$filename] ?? [];
-            extract($post);
-        }
-
-        $template_path = "$root/templates/$template.php";
-        // debug to the header
-        header("X-URI: $uri,$filename,$template,$template_path");
-        if (file_exists($template_path)) {
-            include $template_path;
         }
     }
 }

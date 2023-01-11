@@ -1,3 +1,8 @@
+<?php
+
+extract($post);
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -23,7 +28,7 @@
             <a href="/#form-contact">contact us</a>
         </nav>
     </header>
-    
+
     <main>
         <h1><?php echo $title ?></h1>
         <section class="uk-section">

@@ -403,6 +403,19 @@ php -m | grep sqlite
 * install the extension SQlite3 Editor
 * https://marketplace.visualstudio.com/items?itemName=yy0931.vscode-sqlite3-editor
 
+
+### V0.1.6 POST / READ FROM DB
+
+* Re-organize the code
+    * create space for custom code extensions
+    * config file in `my-data/config.php`
+    * more PHP classes can be added in folder `my-data/class/`
+
+* add admin page
+    * `templates/admin.php`
+    
+
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

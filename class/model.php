@@ -122,23 +122,27 @@ class model
 
     }
 
-    static function read ($table, $id = null)
+    static function read ($table, $val = null, $col = "id", $more = "ORDER BY `id` DESC")
     {
         // read all lines from $table
         // if $id is set, read only the line with id = $id
         // return an array of lines
         // return false if error
+        $where = "";
+        if ($val) {
+            $where = " WHERE `$col` = :$col";
+        }
+
         $sqlp =
         <<<sql
         SELECT *
         FROM `$table`
+        $where
+        $more
         sql;
 
-        if ($id) {
-            $sqlp .= " WHERE `id` = :id";
-        }
-
-        $pdost = model::send_sqlp($sqlp, ['id' => $id]);
+    
+        $pdost = model::send_sqlp($sqlp, ["$col" => $val]);
         if ($pdost) {
             return $pdost->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -194,10 +198,14 @@ class model
         // send a prepared sql query
         // return the PDOStatement
         // return false if error
-        $pdo = sqlite::pdo();
-        $pdost = $pdo->prepare($sqlp);
-        if ($pdost->execute($data)) {
-            return $pdost;
+        try {
+            $pdo = sqlite::pdo();
+            $pdost = $pdo->prepare($sqlp);
+            if ($pdost->execute($data)) {
+                return $pdost;
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
         return false;
     }
@@ -208,7 +216,7 @@ class model
         $pdo = sqlite::pdo();
         return $pdo->lastInsertId();
     }
-    
+
     //_class_end_
 }
 

@@ -61,7 +61,8 @@ class cli
     static function install ()
     {
         // create my-data folder
-        $path_data = framework::$root . "/my-data";
+        $path_data = os::v("path_data") ?? dirname(__DIR__) . "/my-data";
+
         if (!file_exists($path_data)) {
             mkdir($path_data);
             // make sure it is writable
@@ -87,10 +88,63 @@ class cli
         }
 
         // copy media/wp.htaccess to public/.htaccess if not exists
-        $path_htaccess = framework::$root . "/public/.htaccess";
-        if (!file_exists($path_htaccess)) {
-            $path_wp_htaccess = framework::$root . "/media/wp.htaccess";
-            copy($path_wp_htaccess, $path_htaccess);
+        $mode = os::v("cms/mode") ?? "dev";
+        if ($mode == "prod") {
+            $path_htaccess = framework::$root . "/public/.htaccess";
+            if (!file_exists($path_htaccess)) {
+                $path_wp_htaccess = framework::$root . "/media/wp.htaccess";
+                copy($path_wp_htaccess, $path_htaccess);
+            }    
         }
+
+        // create my-data/config.php if not exists
+        $path_config = $path_data . "/config.php";
+        if (!file_exists($path_config)) {
+            $path_wp_config = framework::$root . "/media/sample-config.php";
+            copy($path_wp_config, $path_config);
+        }
+
+        // create my-data/class folder if not exists
+        $path_class = $path_data . "/class";
+        if (!file_exists($path_class)) {
+            mkdir($path_class);
+            // make sure it is writable
+            chmod($path_class, 0777);
+        }
+
+        // create sqlite database if not exists
+        $path_db = os::v("db/sqlite/path") ?? $path_data . "/sqlite.db"; ;
+
+        if (!file_exists($path_db)) {
+            sqlite::db_create();
+
+            // add some lines in table post from media/pages.json
+            $path_posts = os::v("root") . "/media/pages.json";
+            if (file_exists($path_posts)) {
+                $data = file_get_contents($path_posts);
+                $posts = json_decode($data, true);
+                foreach ($posts as $post) {
+                    $post["path"] = "page";
+                    $post["created"] = date("Y-m-d H:i:s");
+                    $post["modified"] = date("Y-m-d H:i:s");
+                    model::create("post", $post);
+                }
+            }
+
+            // add some lines in table post from media/posts.json
+            $path_posts = os::v("root") . "/media/posts.json";
+            if (file_exists($path_posts)) {
+                $data = file_get_contents($path_posts);
+                $posts = json_decode($data, true);
+                foreach ($posts as $post) {
+                    $post["path"] = "post";
+                    $post["created"] = date("Y-m-d H:i:s");
+                    $post["modified"] = date("Y-m-d H:i:s");
+                    model::create("post", $post);
+                }
+            }       
+            
+        }
+
     }
 }

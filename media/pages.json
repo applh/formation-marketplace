@@ -1,9 +1,15 @@
 {
     "index": {
+        "uri": "index",
         "template": "home"
     },
     "api": {
+        "uri": "api",
         "template": "api"
+    },
+    "admin": {
+        "uri": "admin",
+        "template": "admin"
     },
     "credits": {
         "uri": "credits",
