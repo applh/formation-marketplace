@@ -100,8 +100,13 @@ class cli
         // create my-data/config.php if not exists
         $path_config = $path_data . "/config.php";
         if (!file_exists($path_config)) {
-            $path_wp_config = framework::$root . "/media/sample-config.php";
-            copy($path_wp_config, $path_config);
+            $path_sample_config = framework::$root . "/media/sample-config.php";
+
+            // read the content 
+            // and change the placeholder YOUR_ADMIN_API_KEY with a random string
+            $data = file_get_contents($path_sample_config);
+            $data = str_replace("YOUR_ADMIN_API_KEY", os::md5(), $data);
+            file_put_contents($path_config, $data);
         }
 
         // create my-data/class folder if not exists

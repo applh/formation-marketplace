@@ -415,6 +415,87 @@ php -m | grep sqlite
     * `templates/admin.php`
     
 
+### V0.1.7 ADMIN PAGE
+
+* admin page setup
+    * add class api_admin
+    * add class control to check admin/api/key
+    * add general form to send request to api_admin
+
+* debug/improvements
+    * switch template home to db posts
+    * add robots.php template
+    * add favicon image
+    * vue code cleanup
+    * dynamic load_js by Vue
+
+* fixme
+    * remove json post/page loader ?
+
+#### MVC COMPONENTS ARE HERE
+
+* Model `class/model.php`
+* View  `templates` and `class/web.php`
+* Controller `framework.php`, `class/web.php` and `class/control.php`
+
+#### CODE STRUCTURE
+
+```
+.
+├── Coding-recipes.md
+├── LICENSE
+├── README.md
+├── class
+│   ├── api_admin.php
+│   ├── api_public.php
+│   ├── cli.php
+│   ├── control.php
+│   ├── model.php
+│   ├── os.php
+│   ├── sample.php
+│   ├── sqlite.php
+│   └── web.php
+├── framework.php
+├── media
+│   ├── pages.json
+│   ├── posts.json
+│   ├── sample-config.php
+│   └── wp.htaccess
+├── my-data
+│   ├── class
+│   ├── config.php
+│   ├── pages.json
+│   ├── posts.json
+│   └── sqlite.db
+├── public
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── site.css
+│   │   │   ├── uikit-rtl.css
+│   │   │   ├── uikit-rtl.min.css
+│   │   │   ├── uikit.css
+│   │   │   └── uikit.min.css
+│   │   ├── js
+│   │   │   ├── admin.js
+│   │   │   ├── site.js
+│   │   │   ├── uikit-icons.js
+│   │   │   ├── uikit-icons.min.js
+│   │   │   ├── uikit.js
+│   │   │   ├── uikit.min.js
+│   │   │   └── vue.esm-browser.prod.min.js
+│   │   └── media
+│   │       └── photo-1.jpg
+│   └── index.php
+└── templates
+    ├── 404.php
+    ├── admin.php
+    ├── api.php
+    ├── home.php
+    ├── post.php
+    └── robots.php
+
+11 directories, 40 files
+```
 
 ## CREDITS
 

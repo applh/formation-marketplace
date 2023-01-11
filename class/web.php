@@ -24,11 +24,19 @@ class web
         $now = date("Y-m-d H:i:s", self::$timestamp);
 
         // get c and m from request
-        $c = $_REQUEST['c'] ?? 'public';
-        $m = $_REQUEST['m'] ?? '';
-        $api_callback = "api_$c::$m";
-        if (is_callable($api_callback)) {
-            $api_callback();
+        $c = $_REQUEST["c"] ?? "public";
+
+        //check access to api $c
+        $access_callback = "control::$c";
+        if (is_callable($access_callback)) {
+            $access = $access_callback() ?? false;
+            if ($access) {
+                $m = $_REQUEST["m"] ?? '';
+                $api_callback = "api_$c::$m";
+                if (is_callable($api_callback)) {
+                    $api_callback();
+                }
+            }
         }
 
         // PHP associative array

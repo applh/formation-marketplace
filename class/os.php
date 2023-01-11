@@ -28,6 +28,13 @@ class os
         return os::$vars[$key] ?? null;
     }
 
+    static function md5 ($src=null)
+    {
+        // if src is not null then return md5 of src
+        // else generate a random md5
+        return $src ? md5($src) : md5(password_hash(uniqid(rand(), true), PASSWORD_DEFAULT));
+    }
+
     //_class_end_
 }
 

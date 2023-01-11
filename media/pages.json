@@ -11,6 +11,10 @@
         "uri": "admin",
         "template": "admin"
     },
+    "robots": {
+        "uri": "robots",
+        "template": "robots"
+    },
     "credits": {
         "uri": "credits",
         "template": "post",

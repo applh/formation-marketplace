@@ -10,16 +10,16 @@ extract($post);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="<?php echo $image ?>" type="image/jpeg">
+
     <meta name="description" content="Your MarketPlace with PHP+SQL">
     <title><?php echo $title ?> | Your MarketPlace with PHP+SQL</title>
 
     <link rel="stylesheet" href="/assets/css/uikit.min.css">
     <link rel="stylesheet" href="/assets/css/site.css">
 
-    <script src="/assets/js/uikit.min.js"></script>
-    <script src="/assets/js/uikit-icons.min.js"></script>
-    <script type="module" src="/assets/js/site.js"></script>
-</head>
+    </head>
 
 <body>
     <header>
@@ -65,6 +65,8 @@ extract($post);
         </nav>
         <p>Your MarketPlace &copy; 2023</p>
     </footer>
+    
+    <script type="module" src="/assets/js/site.js"></script>
 
 </body>
 

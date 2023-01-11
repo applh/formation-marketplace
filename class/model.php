@@ -129,8 +129,10 @@ class model
         // return an array of lines
         // return false if error
         $where = "";
+        $tokens = [];
         if ($val) {
             $where = " WHERE `$col` = :$col";
+            $tokens = [":$col" => $val];
         }
 
         $sqlp =
@@ -142,7 +144,7 @@ class model
         sql;
 
     
-        $pdost = model::send_sqlp($sqlp, ["$col" => $val]);
+        $pdost = model::send_sqlp($sqlp, $tokens);
         if ($pdost) {
             return $pdost->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -205,6 +207,10 @@ class model
                 return $pdost;
             }
         } catch (Exception $e) {
+            ob_start();
+            $pdost->debugDumpParams();
+            $debug = ob_get_clean();
+            error_log($debug);
             error_log($e->getMessage());
         }
         return false;

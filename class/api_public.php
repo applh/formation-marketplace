@@ -69,7 +69,7 @@ class api_public
 
         // send email
         // TODO: add configuration parameters to my-config.php
-        $to = "";
+        $to = os::v("admin/email") ?? "";
 
         if ($to) {
             $subject = "Contact Form ($name) $email";
@@ -102,7 +102,8 @@ class api_public
 
     static function posts ()
     {
-        web::extra("posts", model::$posts);
+        $posts = model::read("post", "post", "path");
+        web::extra("posts", $posts);
     }
 
     //_class_end_
