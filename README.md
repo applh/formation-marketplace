@@ -324,6 +324,85 @@ php framework.php install
 
 ```
 
+### V0.1.5 CRUD AND SQLITE DATABASE
+
+SQLite is a lightweight database engine
+* no need to install a database server
+* no need to configure a database server
+* no need to create a database
+* no need to create a database user
+* no need to create a database password
+
+* add SQLite database
+    * `my-data/sqlite.db`
+* add model class to manage the database
+    * `class/model.php`
+    * `class/sqlite.php`
+* add cli command to create the database
+    * `php framework.php install`
+
+#### CRUD
+
+* create
+* read
+* update
+* delete
+
+* CRUD is a common task
+    * Github Copilot is a great tool to write code
+    * https://copilot.github.com/
+    * Copilot can write the code for you...
+
+#### PHP CODE STRUCTURE
+
+```
+.
+├── my-data
+│   ├── form-contact.txt
+│   ├── pages.json
+│   ├── posts.json
+│   └── sqlite.db
+├── public
+│   ├── assets
+│   └── index.php
+├── framework.php
+├── class
+│   ├── api_public.php
+│   ├── cli.php
+│   ├── model.php
+│   ├── sample.php
+│   ├── sqlite.php
+│   └── web.php
+└── templates
+    ├── 404.php
+    ├── api.php
+    ├── home.php
+    └── post.php
+
+```
+
+#### UBUNTU ROOT PDO SQLITE3 MODULE INSTALLATION
+
+* some PHP modules are not installed by default
+* you need to install them manually
+* example: PDO SQLite3 module
+
+```
+apt-cache search php | grep sqlite
+apt install php8.2-sqlite3
+php -m | grep sqlite
+
+# you should see in the list: pdo_sqlite3
+
+```
+
+#### VSCODE SQLITE3 EXTENSION
+
+* install the SQLite extension for VSCode
+* https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
+* install the extension SQlite3 Editor
+* https://marketplace.visualstudio.com/items?itemName=yy0931.vscode-sqlite3-editor
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

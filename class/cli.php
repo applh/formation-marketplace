@@ -11,7 +11,13 @@ class cli
         print_r(cli::$args);
 
         $arg1 = cli::$args[1] ?? "";
-        $command = "cli::$arg1";
+        // if $args contains ::, then call the function
+        // else, call the method $arg1 in classs cli
+        if (strpos($arg1, "::") !== false) {
+            $command = $arg1;
+        } else {
+            $command = "cli::$arg1";
+        }
         if (is_callable($command)) {
             $command();
         }
@@ -78,6 +84,13 @@ class cli
         if (!file_exists($path_pages)) {
             $data = json_encode(model::$pages, JSON_PRETTY_PRINT);
             file_put_contents($path_pages, $data);
+        }
+
+        // copy media/wp.htaccess to public/.htaccess if not exists
+        $path_htaccess = framework::$root . "/public/.htaccess";
+        if (!file_exists($path_htaccess)) {
+            $path_wp_htaccess = framework::$root . "/media/wp.htaccess";
+            copy($path_wp_htaccess, $path_htaccess);
         }
     }
 }

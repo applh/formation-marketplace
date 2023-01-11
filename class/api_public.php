@@ -17,24 +17,87 @@ class api_public
     {
         $now = date("Y-m-d H:i:s", web::$timestamp);
         // save request and append to file my-data/form-contact.txt
-        $file = framework::$root . "/my-data/form-contact.txt";
         $data = [];
+        $errors = [];
+
         // sanitize data
-        $data['name'] = strip_tags($_REQUEST['name'] ?? "");
-        $data['email'] = strip_tags($_REQUEST['email'] ?? "");
-        $data['message'] = strip_tags($_REQUEST['message'] ?? "");
+        $data['name'] = trim(strip_tags($_REQUEST['name'] ?? ""));
+        $data['email'] = trim(strip_tags($_REQUEST['email'] ?? ""));
+        $data['message'] = trim(strip_tags($_REQUEST['message'] ?? ""));
+
+        // validate data
+        if (!$data['name']) {
+            $errors["name"] = "Name is required";
+        }
+        if (!$data['email']) {
+            $errors["email"] = "Email is required";            
+        }
+        else if ($data['email'] !== filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            // check email is valid
+            $errors["email"] = "Email is not valid";
+        }
+
+        if (!$data['message']) {
+            $errors["message"] = "Message is required";
+        }
+
+        // if errors, return them
+        if ($errors) {
+            web::extra("errors", $errors);
+            web::extra("feedback", "Error(s)... " . implode(", ", $errors));
+
+            return;
+        }
 
         // add timestamp
-        $data['timestamp'] = $now;
+        $data['created'] = $now;
         // add ip 
         $data['ip'] = $_SERVER['REMOTE_ADDR'] ?? "";
         // add user agent
         $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? "";
         
-        $data = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($file, $data, FILE_APPEND);
+        // create local variables from array
+        extract($data);
 
-        web::extra("feedback", "Many Thanks. Your message was sent successfully... ($now)");
+        // save in file
+        $datajs = json_encode($data, JSON_PRETTY_PRINT);
+        $file = framework::$root . "/my-data/form-contact.txt";
+        file_put_contents($file, $datajs, FILE_APPEND);
+
+        // create a new line in database
+        model::create("contact", $data);
+
+        // send email
+        // TODO: add configuration parameters to my-config.php
+        $to = "";
+
+        if ($to) {
+            $subject = "Contact Form ($name) $email";
+
+            $message = 
+            <<<txt
+            Name: $name
+            Email: $email
+            Message: $message
+            Timestamp: $now
+            IP: $ip
+            User Agent: $user_agent
+    
+            txt;
+    
+            $headers =
+            <<<txt
+            From: {$data['email']}
+            Reply-To: {$data['email']}
+            
+            txt;
+    
+            // need a mail server to really send the email
+            mail($to, $subject, $message, $headers);
+    
+        }
+
+        web::extra("feedback", "Many Thanks. Your message was sent successfully... ($now, $name, $email)");
     }
 
     static function posts ()

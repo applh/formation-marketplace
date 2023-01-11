@@ -90,6 +90,125 @@ class model
         }
     }
 
+    static function create ($table, $data)
+    {
+        // insert a new line in $table with columns $data
+        // return the new id
+        // return false if error
+        $cols = '';
+        $tokens = '';
+        foreach ($data as $col => $val) {
+            $cols .= "`$col`, ";
+            $tokens .= ":$col, ";
+        }
+        // trim space and last comma
+        $cols = trim($cols, ', ');
+        $tokens = trim($tokens, ', ');
+
+
+        $sqlp =
+        <<<sql
+        INSERT INTO `$table`
+        ($cols)
+        VALUES
+        ($tokens)
+        sql;
+
+        $pdost = model::send_sqlp($sqlp, $data);
+        if ($pdost) {
+            return model::last_id();
+        }
+        return false;
+
+    }
+
+    static function read ($table, $id = null)
+    {
+        // read all lines from $table
+        // if $id is set, read only the line with id = $id
+        // return an array of lines
+        // return false if error
+        $sqlp =
+        <<<sql
+        SELECT *
+        FROM `$table`
+        sql;
+
+        if ($id) {
+            $sqlp .= " WHERE `id` = :id";
+        }
+
+        $pdost = model::send_sqlp($sqlp, ['id' => $id]);
+        if ($pdost) {
+            return $pdost->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
+
+    static function update ($table, $id, $data)
+    {
+        // update the line with id = $id in $table with columns $data
+        // return true if ok
+        // return false if error
+        $cols = '';
+        foreach ($data as $col => $val) {
+            $cols .= "`$col` = :$col, ";
+        }
+        // trim space and last comma
+        $cols = trim($cols, ', ');
+
+        $sqlp =
+        <<<sql
+        UPDATE `$table`
+        SET $cols
+        WHERE `id` = :id
+        sql;
+
+        $pdost = model::send_sqlp($sqlp, array_merge($data, ['id' => $id]));
+        if ($pdost) {
+            return true;
+        }
+        return false;
+    }
+
+    static function delete ($table, $id)
+    {
+        // delete the line with id = $id in $table
+        // return true if ok
+        // return false if error
+        $sqlp =
+        <<<sql
+        DELETE FROM `$table`
+        WHERE `id` = :id
+        sql;
+
+        $pdost = model::send_sqlp($sqlp, ['id' => $id]);
+        if ($pdost) {
+            return true;
+        }
+        return false;
+    }
+
+    static function send_sqlp ($sqlp, $data)
+    {
+        // send a prepared sql query
+        // return the PDOStatement
+        // return false if error
+        $pdo = sqlite::pdo();
+        $pdost = $pdo->prepare($sqlp);
+        if ($pdost->execute($data)) {
+            return $pdost;
+        }
+        return false;
+    }
+
+    static function last_id ()
+    {
+        // return the last id of the last insert
+        $pdo = sqlite::pdo();
+        return $pdo->lastInsertId();
+    }
+    
     //_class_end_
 }
 
