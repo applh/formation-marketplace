@@ -51,9 +51,16 @@
     <!-- add vuejs 3 app -->
     <div class="box-vue">
         <div id="app"></div>
-        <template id="appTemplate" data-compos="test">
+        <template id="appTemplate" data-compos="test crud">
             <section>
                 <p>{{ api_feedback }}</p>
+            </section>
+
+            <section class="uk-section">
+                <div class="uk-container">
+                    <input class="uk-input" type="password" required placeholder="your admin api key" aria-label="your admin api key" v-model="admin_api_key">
+                    <button class="uk-button uk-button-default" @click.prevent="login">LOGIN</button>
+                </div>
             </section>
 
             <Teleport to=".box-posts">
@@ -141,8 +148,12 @@
                 </section>
             </Teleport>
 
-            <!-- async components -->
-            <o-test></o-test>
+            <Teleport to=".box-crud">
+                <!-- async components -->
+                <o-crud title="post" table="post"></o-crud>
+                <o-crud title="user" table="user"></o-crud>
+                <o-test></o-test>
+            </Teleport>
         </template>
     </div>
 

@@ -101,6 +101,28 @@ class api_admin
 
     }
 
+    static function crud ()
+    {
+        // get action, table
+        $table = web::input("table");
+        $action = web::input("action");
+        $id = web::input("id");
+
+        // if action is delete then delete item
+        if ($action == "delete") {
+            // security: convert to int
+            $id = intval($id);
+            // delete item
+            model::delete($table, $id);
+
+            web::extra("feedback", "deleted: $table ($id)");
+        }
+
+        // refresh posts
+        $items = model::read($table);
+        web::extra("items", $items);
+        
+    }
     //_class_end_
 }
 

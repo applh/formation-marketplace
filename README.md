@@ -583,6 +583,17 @@ php -m | grep sqlite
     └── robots.php
 ```
 
+### V0.2.0 ADMIN PAGE / CRUD + ASYNC VUE COMPONENT
+
+* add vue async component o-crud
+    * prop `table` to select the table to CRUD
+    * read display in a table
+    * delete button and api item delete
+
+* debug and improvements
+    * add login form to store admin_api_key in browser local storage
+        * easier to test api_admin...
+    
 ## CREDITS
 
 * Thanks to Pexels for the free images

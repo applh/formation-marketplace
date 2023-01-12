@@ -62,6 +62,10 @@ if (box_vue) {
             this.posts = json.posts ?? [];
 
         },
+        async mounted () {
+            // load admin_api_key from local storage
+            this.admin_api_key = localStorage.getItem('admin_api_key');
+        },
         provide() {
             return {
                 // tricky way to pass 'this' to child components
@@ -108,6 +112,10 @@ if (box_vue) {
             },
             async test (p='') {
                 console.log('test' + p);
+            },
+            async login () {
+                // save admin_api_key to local storage
+                localStorage.setItem('admin_api_key', this.admin_api_key);
             }
         }
     });
