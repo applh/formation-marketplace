@@ -160,4 +160,18 @@ class cli
         }
 
     }
+
+    static function web ()
+    {
+        // launch PHP local web server with root as public
+        $doc_root = os::v("root") . "/public";
+        $command = "php -S localhost:9876 -t $doc_root";
+        $logs = [];
+        $logs[] = "launch web server";
+        $logs[] = "doc root: $doc_root";
+        $logs[] = "command: $command";
+        print_r($logs);
+        passthru($command);
+
+    }
 }

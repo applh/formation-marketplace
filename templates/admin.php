@@ -51,7 +51,7 @@
     <!-- add vuejs 3 app -->
     <div class="box-vue">
         <div id="app"></div>
-        <template id="appTemplate">
+        <template id="appTemplate" data-compos="test">
             <section>
                 <p>{{ api_feedback }}</p>
             </section>
@@ -141,6 +141,8 @@
                 </section>
             </Teleport>
 
+            <!-- async components -->
+            <o-test></o-test>
         </template>
     </div>
 

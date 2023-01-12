@@ -530,6 +530,59 @@ php -m | grep sqlite
     * HACK: override the method `login`
     * https://www.adminer.org/en/extension/
 
+
+### V0.1.9 ADMIN PAGE / CRUD + ASYNC VUE COMPONENT
+
+* add vue async component to admin page
+    * simple setup of vue async component
+    * tip: create a relation provide/inject between main app and child components
+
+* debug and improvements
+    * add command cli::web to launch PHP local web server
+
+#### CODE STRUCTURE
+
+```
+.
+├── media
+├── my-data
+├── public
+│   ├── assets
+│   │   ├── css
+│   │   ├── js
+│   │   │   ├── admin.js
+│   │   │   ├── o-test.js
+│   │   │   ├── site.js
+│   │   │   ├── uikit-icons.js
+│   │   │   ├── uikit-icons.min.js
+│   │   │   ├── uikit.js
+│   │   │   ├── uikit.min.js
+│   │   │   └── vue.esm-browser.prod.min.js
+│   │   └── media
+│   └── index.php
+├── framework.php
+├── class
+│   ├── api_admin.php
+│   ├── api_public.php
+│   ├── cli.php
+│   ├── control.php
+│   ├── model.php
+│   ├── os.php
+│   ├── sample.php
+│   ├── sqlite.php
+│   └── web.php
+└── templates
+    ├── 404.php
+    ├── admin.php
+    ├── adminer
+    │   └── index.php
+    ├── adminer.php
+    ├── api.php
+    ├── home.php
+    ├── post.php
+    └── robots.php
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

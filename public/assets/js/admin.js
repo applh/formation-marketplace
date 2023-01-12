@@ -29,6 +29,21 @@ if (box_vue) {
         template: '#appTemplate',
         data: () => appData,
         async created() {
+            // WARNING: REGISTER ASYNC COMPONENTS FIRST
+            // <template id="appTemplate" data-compos="test">
+            let appTemplate = document.querySelector('#appTemplate');
+            let compos = appTemplate?.getAttribute("data-compos");
+            if (compos) {
+                compos = compos.split(' ');
+                compos.forEach(function (name) {
+                    console.log('register component: o-' + name);
+                    app.component(
+                        'o-' + name,
+                        Vue.defineAsyncComponent(() => import(`/assets/js/o-${name}.js`))
+                    );
+                });
+            }
+
             // load extra js files
             this.extra_js.forEach((js) => {
                 this.load_js(js);
@@ -45,6 +60,13 @@ if (box_vue) {
             let json = await response.json();
             this.api_feedback = json.feedback ?? 'xxx';
             this.posts = json.posts ?? [];
+
+        },
+        provide() {
+            return {
+                // tricky way to pass 'this' to child components
+                main_app: this,
+            }
         },
         methods: {
             load_js(url, async = true) {
@@ -83,6 +105,9 @@ if (box_vue) {
                     this.posts = json.posts;
                 }
 
+            },
+            async test (p='') {
+                console.log('test' + p);
             }
         }
     });
