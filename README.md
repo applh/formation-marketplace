@@ -593,7 +593,70 @@ php -m | grep sqlite
 * debug and improvements
     * add login form to store admin_api_key in browser local storage
         * easier to test api_admin...
-    
+    * better UIkit grid layout and UX
+
+### V0.2.1 ADMIN PAGE / CRUD + ASYNC VUE COMPONENT
+
+* add class cms to define models (post, user, ...)
+* add general CRUD forms in async component o-crud
+
+* debug and improvements
+    * need to deep copy object to have separate instances of vue components
+    * https://code.tutsplus.com/articles/the-best-way-to-deep-copy-an-object-in-javascript--cms-39655
+    * add checkbox to hide/show CRU panels in admin page
+
+#### CODE STRUCTURE
+
+```
+.
+├── media
+├── my-data
+├── public
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── site.css
+│   │   │   ├── uikit-rtl.css
+│   │   │   ├── uikit-rtl.min.css
+│   │   │   ├── uikit.css
+│   │   │   └── uikit.min.css
+│   │   ├── js
+│   │   │   ├── admin.js
+│   │   │   ├── o-crud.js
+│   │   │   ├── o-test.js
+│   │   │   ├── site.js
+│   │   │   ├── uikit-icons.js
+│   │   │   ├── uikit-icons.min.js
+│   │   │   ├── uikit.js
+│   │   │   ├── uikit.min.js
+│   │   │   └── vue.esm-browser.prod.min.js
+│   │   └── media
+│   │       └── photo-1.jpg
+│   └── index.php
+├── framework.php
+├── class
+│   ├── api_admin.php
+│   ├── api_public.php
+│   ├── cli.php
+│   ├── cms.php
+│   ├── control.php
+│   ├── model.php
+│   ├── os.php
+│   ├── sample.php
+│   ├── sqlite.php
+│   └── web.php
+└── templates
+    ├── 404.php
+    ├── admin.php
+    ├── adminer
+    │   └── index.php
+    ├── adminer.php
+    ├── api.php
+    ├── home.php
+    ├── post.php
+    └── robots.php
+
+```
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

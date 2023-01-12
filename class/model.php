@@ -95,6 +95,13 @@ class model
         // insert a new line in $table with columns $data
         // return the new id
         // return false if error
+
+        // fixme: some better protection
+        $nb_data = count($data);
+        if ($nb_data == 0) {
+            return false;
+        }
+
         $cols = '';
         $tokens = '';
         foreach ($data as $col => $val) {
@@ -208,10 +215,13 @@ class model
             }
         } catch (Exception $e) {
             ob_start();
-            $pdost->debugDumpParams();
+            if ($pdost ?? false) {
+                $pdost->debugDumpParams();
+            }
             $debug = ob_get_clean();
             error_log($debug);
             error_log($e->getMessage());
+            error_log(json_encode($data, JSON_PRETTY_PRINT));
         }
         return false;
     }

@@ -15,6 +15,15 @@
     <link rel="stylesheet" href="/assets/css/site.css">
     <style>
         /* admin only css */
+        /* limit height to 5 rem */
+        td > div {
+            max-height: 5rem;
+            overflow-y: auto;
+        }
+        td > div:hover {
+            max-height: 10rem;
+            overflow-y: auto;
+        }
     </style>
 </head>
 
