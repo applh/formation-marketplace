@@ -1,6 +1,9 @@
 
 console.log('o-crud.js loaded');
 
+import { default as commix } from '/assets/js/o-commix.js';
+let mixins = [ commix.mixin ];
+
 let inject = [ 'main_app' ];
 let props = [ 'title', 'table' ];
 
@@ -177,6 +180,8 @@ let created = async function () {
 
 let mounted = function () {
     this.main_app.test('o-crud mounted');
+
+    console.log(this.center);
 }
 
 // vue js async component
@@ -187,7 +192,7 @@ export default {
     // hack: deep copy to avoid sharing data between instances
     // https://code.tutsplus.com/articles/the-best-way-to-deep-copy-an-object-in-javascript--cms-39655
     data: () => JSON.parse(JSON.stringify(data_compo)),
-    // mixins,
+    mixins,
     // setup,
     methods,
     created,

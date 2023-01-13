@@ -4,9 +4,17 @@ console.log('Your marketplace is ready to go!');
 let box_vue = document.querySelector('.box-vue');
 
 // import vue js 3
-import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
+// import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
 
 if (box_vue) {
+    // better way to load Vue ?
+    let Vue = await import('/assets/js/vue.esm-browser.prod.min.js');
+    console.log(Vue);
+
+    // import { default as commix } from '/assets/js/o-commix.js';
+    let commix = await import('/assets/js/o-commix.js');
+    let mixins = [ commix.default.mixin ]; // warning: must add .default
+
     console.log('setup vue app...');
 
     // create vue app
@@ -27,6 +35,7 @@ if (box_vue) {
 
     const app = Vue.createApp({
         template: '#appTemplate',
+        mixins,
         data: () => appData,
         async created() {
             // WARNING: REGISTER ASYNC COMPONENTS FIRST
@@ -61,6 +70,8 @@ if (box_vue) {
             this.api_feedback = json.feedback ?? 'xxx';
             this.posts = json.posts ?? [];
 
+            this.center.title = 'MY TITLE';
+            this.center.count = 123;
         },
         async mounted () {
             // load admin_api_key from local storage
@@ -111,7 +122,8 @@ if (box_vue) {
 
             },
             async test (p='') {
-                console.log('test' + p);
+                console.log('test: ' + p);
+                this.test2(p);
             },
             async login () {
                 // save admin_api_key to local storage
