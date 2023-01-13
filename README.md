@@ -64,6 +64,12 @@ php -S localhost:9876
     * various tests on Vue mixins and setup() reactivity
     * JS dynamic module import
 
+
+### V0.2.3 VARIOUS HACKS ON VUEJS
+
+* combining JS import with Vue composition setup() can open new possibilities
+* https://vuejs.org/api/composition-api-setup.html#dynamic-module-imports
+
 #### CODE STRUCTURE
 
 ```

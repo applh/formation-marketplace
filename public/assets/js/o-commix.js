@@ -29,8 +29,16 @@ let mixin = {
             console.log('o-commix test2: ' + msg);
         },
     },
+    common, // hack: to make common available in setup() but not in data()
+    data() {
+        // add data to mixin
+        return {
+            hello: 'bonjour',
+        }
+    }
 }
 
 export default {
     mixin,
+    common, // hack: another hack to make possible to make common available in setup()
 }

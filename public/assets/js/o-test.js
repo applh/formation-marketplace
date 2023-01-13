@@ -13,7 +13,14 @@ let data_compo = {
 };
 
 let setup = function () {
-    console.log('o-test setup');
+    console.log('o-test SETUP');
+
+    // warning: mixins are not available in setup 
+    // common is not available as this.center
+    // hack: but we can use commix.mixin.common or commix.common
+    console.log(commix.mixin.common.count++);
+    console.log(commix.common.count++);
+
     const toto = Vue.ref(0);
 
     return {
@@ -25,7 +32,8 @@ let template = `
 <div class="uk-section">
     <div class="uk-container">
         <h1>o-test</h1>
-        <button class="uk-button" @click.prevent="center.count++">{{ center.count }}</button>
+        <button class="uk-button" @click.prevent="toto++">local: {{ toto}}</button>
+        <button class="uk-button" @click.prevent="center.count++">common: {{ center.count }}</button>
     </div>
 </div>
 `;
@@ -42,6 +50,7 @@ let created = function () {
 let mounted = function () {
     this.main_app.test('o-test mounted');
     console.log(this.toto++);
+    console.log(this.hello);
 }
 
 
