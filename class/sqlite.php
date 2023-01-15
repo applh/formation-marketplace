@@ -62,16 +62,16 @@ class sqlite
                 `cats` TEXT,
                 `author_id` INTEGER,
                 `level` INTEGER,
-                'x' REAL,
-                'y' REAL,
-                'z' REAL,
-                't' REAL,
-                link1 INTEGER,
-                link2 INTEGER,
-                linkname TEXT,
-                quantity REAL,
-                quality TEXT,
-                price REAL
+                `x` REAL,
+                `y` REAL,
+                `z` REAL,
+                `t` REAL,
+                `link1` INTEGER,
+                `link2` INTEGER,
+                `linkname` TEXT,
+                `quantity` REAL,
+                `quality` TEXT,
+                `price` REAL
             )
             sql;
             $db->exec($sql);

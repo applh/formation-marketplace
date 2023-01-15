@@ -100,8 +100,10 @@
 
         <Teleport to=".box-crud">
             <!-- async components -->
+            <o-crud title="post" table="page"></o-crud>
             <o-crud title="post" table="post"></o-crud>
             <o-crud title="user" table="user"></o-crud>
+            <o-crud title="contact" table="contact"></o-crud>
             <o-test></o-test>
             <o-test></o-test>
         </Teleport>

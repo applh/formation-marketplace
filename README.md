@@ -144,6 +144,10 @@ php -S localhost:9876
 * debug and improvements
     * template can be PHP callable
 
+### V0.2.5 DEBUG
+
+* debug and improvements
+    * correct SQL model
 
 ## CREDITS
 
