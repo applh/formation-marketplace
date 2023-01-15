@@ -36,15 +36,15 @@
                     <div>
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top" uk-lightbox>
-                                <a href="<?php echo $image ?>" alt="...">
-                                    <img src="<?php echo $image ?>" width="1800" height="1200" alt="">
+                                <a href="<?php echo $media ?>" alt="...">
+                                    <img src="<?php echo $media ?>" width="1800" height="1200" alt="">
                                 </a>
                             </div>
                             <div class="uk-card-body">
                                 <h3 class="uk-card-title">
                                     <a href="/<?php echo $uri ?>"><?php echo $title ?></a>
                                 </h3>
-                                <p><?php echo $description ?></p>
+                                <p><?php echo $content ?></p>
                             </div>
                         </div>
                     </div>
@@ -91,14 +91,14 @@
                             <div class="uk-card uk-card-default">
                                 <div class="uk-card-media-top" uk-lightbox>
                                     <a :href="post.image" alt="...">
-                                        <img :src="post.image" width="1800" height="1200" alt="">
+                                        <img :src="post.media" width="1800" height="1200" alt="">
                                     </a>
                                 </div>
                                 <div class="uk-card-body">
                                     <h3 class="uk-card-title">
                                         <a :href="'/' + post.uri">{{ post.title }}</a>
                                     </h3>
-                                    <p>{{ post.description }}</p>
+                                    <p>{{ post.content }}</p>
                                 </div>
                             </div>
                         </div>

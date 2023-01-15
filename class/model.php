@@ -52,7 +52,7 @@ class model
             'template' => 'home',
         ],
         'api' => [
-            'template' => 'api',
+            'template' => 'template::json',
         ],
         'credits' => [
             'uri' => 'credits',

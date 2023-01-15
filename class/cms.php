@@ -15,6 +15,11 @@ class cms
 
     static $models = [];
 
+    // TODO: add better way to handle cud_tables
+    static $cud_tables = [
+        "post"  => "geocms",
+        "page"  => "geocms",
+    ];
     static function add ($name, $model)
     {
         // add model to array
@@ -25,6 +30,12 @@ class cms
     {
         // get model from array
         return self::$models[$name] ?? $default;
+    }
+
+    static function cud_table ($table)
+    {
+        // get cud_table from array
+        return cms::$cud_tables[$table] ?? $table;
     }
 
     //_class_end_
@@ -46,14 +57,14 @@ $model_post = [
         "val" => "",
     ],
     [
-        "name" => "description",
-        "label" => "Description",
+        "name" => "content",
+        "label" => "content",
         "type" => "textarea",
         "val" => "",
     ],
     [
-        "name" => "image",
-        "label" => "Image",
+        "name" => "media",
+        "label" => "media",
         "type" => "text",
         "val" => "https://picsum.photos/id/4/640/640.jpg",
     ],

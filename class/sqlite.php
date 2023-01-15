@@ -15,6 +15,9 @@ class sqlite
 
     static function db_create ()
     {
+        // https://www.sqlite.org/datatype3.html
+        // https://www.sqlite.org/lang_datefunc.html
+
         $path_data = os::v("path_data");
         $path_db = os::v("db/sqlite/path") ?? "$path_data/sqlite.db";
         if (!file_exists($path_db)) {
@@ -23,28 +26,65 @@ class sqlite
         }
 
         if ($db) {
-            // create table post with columns id, path, uri, template, title, image, description, created, modified, status, tags, cats, author_id, level
+
+            // GEOCMS
+            // filesystem
+            // cms
+            // geo 
+            // link
+            // product
+
+            // create table geocms with columns 
+            // id
+            // path, filename, ext, code 
+            // uri, template, title, media, content, created, modified, 
+            // status, tags, cats, author_id, level
+            // x, y, z, t
+            // link1, link2, linkname, 
+            // quantity, quality, price
             $sql =
             <<<sql
-            CREATE TABLE IF NOT EXISTS `post` (
+            CREATE TABLE IF NOT EXISTS `geocms` (
                 `id` INTEGER PRIMARY KEY,
                 `path` TEXT,
+                `filename` TEXT,
+                `ext` TEXT,
+                `code` TEXT,
                 `uri` TEXT,
                 `template` TEXT,
                 `title` TEXT,
-                `image` TEXT,
-                `description` TEXT,
+                `media` TEXT,
+                `content` TEXT,
                 `created` TEXT,
                 `modified` TEXT,
                 `status` TEXT,
                 `tags` TEXT,
                 `cats` TEXT,
                 `author_id` INTEGER,
-                `level` INTEGER
+                `level` INTEGER,
+                'x' REAL,
+                'y' REAL,
+                'z' REAL,
+                't' REAL,
+                link1 INTEGER,
+                link2 INTEGER,
+                linkname TEXT,
+                quantity REAL,
+                quality TEXT,
+                price REAL
             )
             sql;
             $db->exec($sql);
 
+            // add index to geocms on path, filename, ext, uri
+            foreach (["path", "filename", "ext", "uri"] as $index) {
+                $sql =
+                <<<sql
+                CREATE INDEX IF NOT EXISTS `$index` ON `geocms` (`$index`)
+                sql;
+                $db->exec($sql);
+            }
+ 
             // create table user with columns id, email, username, level, role, passhash, created, modified
             $sql = 
             <<<sql
@@ -75,7 +115,34 @@ class sqlite
                 `user_agent` TEXT
             )
             sql;
-            $db->exec($sql);            
+            $db->exec($sql);
+            
+            // create views
+
+            // create view post with columns id, path, filename, ext, uri, template, title, media, description, created, modified, status, tags, cats, author_id, level
+            // order by created desc then by id desc
+            $sql =
+            <<<sql
+            CREATE VIEW IF NOT EXISTS `post` AS
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, author_id, level
+            FROM geocms
+            WHERE path IN ('post')
+            ORDER BY created DESC, id DESC
+            sql;
+            $db->exec($sql);
+
+            // create view page with columns id, path, filename, ext, uri, template, title, media, description, created, modified, status, tags, cats, author_id, level
+            // order by created desc then by id desc
+            $sql =
+            <<<sql
+            CREATE VIEW IF NOT EXISTS `page` AS
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, author_id, level
+            FROM geocms
+            WHERE path IN ('page')
+            ORDER BY created DESC, id DESC
+            sql;
+            $db->exec($sql);
+
         }        
     }
 

@@ -56,10 +56,10 @@
                             <input class="uk-input" type="text" name="title" placeholder="title" aria-label="title">
                         </div>
                         <div class="uk-margin">
-                            <textarea class="uk-textarea" rows="10" name="description" placeholder="description" aria-label="description"></textarea>
+                            <textarea class="uk-textarea" rows="10" name="content" placeholder="content" aria-label="content"></textarea>
                         </div>
                         <div class="uk-margin">
-                            <input class="uk-input" type="text" name="image" placeholder="image" aria-label="image" value="https://picsum.photos/id/4/640/640.jpg">
+                            <input class="uk-input" type="text" name="media" placeholder="media" aria-label="media" value="https://picsum.photos/id/4/640/640.jpg">
                         </div>
                         <div class="uk-margin">
                             <button type="submit" class="uk-button uk-button-default">SEND</button>
@@ -80,8 +80,8 @@
                     <div v-for="(post, index) in posts">
                         <div class="uk-card uk-card-default">
                             <div class="uk-card-media-top" uk-lightbox>
-                                <a :href="post.image" alt="...">
-                                    <img :src="post.image" width="1800" height="1200" alt="">
+                                <a :href="post.media" alt="...">
+                                    <img :src="post.media" width="1800" height="1200" alt="">
                                 </a>
                             </div>
                             <div class="uk-card-body">

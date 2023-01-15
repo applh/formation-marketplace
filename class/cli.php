@@ -62,6 +62,8 @@ class cli
     {
         // create my-data folder
         $path_data = os::v("path_data") ?? dirname(__DIR__) . "/my-data";
+        // set path_data if not exists
+        os::v("path_data") ?? os::v("path_data", $path_data);
 
         if (!file_exists($path_data)) {
             mkdir($path_data);
@@ -140,7 +142,7 @@ class cli
                     $post["path"] = "page";
                     $post["created"] = date("Y-m-d H:i:s");
                     $post["modified"] = date("Y-m-d H:i:s");
-                    model::create("post", $post);
+                    model::create("geocms", $post);
                 }
             }
 
@@ -153,7 +155,7 @@ class cli
                     $post["path"] = "post";
                     $post["created"] = date("Y-m-d H:i:s");
                     $post["modified"] = date("Y-m-d H:i:s");
-                    model::create("post", $post);
+                    model::create("geocms", $post);
                 }
             }       
             

@@ -98,7 +98,7 @@ class web
 
         // if no template, search in db
         if (!$template) {
-            $posts = model::read("post", $filename, "uri");
+            $posts = model::read("geocms", $filename, "uri");
             $post = $posts[0] ?? [];
             $template = $post["template"] ?? "";
         }
@@ -107,22 +107,35 @@ class web
         if (!$template) {
             $template = "404";
         }
-
-        $template_path = "$root/templates/$template.php";
-
         // debug to the header
-        header("X-URI: $uri,$filename,$template,$template_path");
-        if (file_exists($template_path)) {
-            include $template_path;
+        header("X-URI: $uri,$filename,$template");
+        // check if $template contains "::"
+        if (strpos($template, "::") !== false) {
+            $template = trim($template);
+            // debug header
+            header("X-Template: $template");
+            if (is_callable($template)) {
+                $template();
+            }
         }
         else {
-            // check in $path_data/templates
-            $path_data = os::v("path_data");
-            $template_path = "$path_data/templates/$template.php";
+            // check template as PHP file
+            $template_path = "$root/templates/$template.php";
+
             if (file_exists($template_path)) {
                 include $template_path;
             }
+            else {
+                // check in $path_data/templates
+                $path_data = os::v("path_data");
+                $template_path = "$path_data/templates/$template.php";
+                if (file_exists($template_path)) {
+                    include $template_path;
+                }
+            }
+    
         }
+
     }
 
     static function input ($name, $default = "")

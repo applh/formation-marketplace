@@ -74,18 +74,17 @@ php -S localhost:9876
 
 ```
 .
+├── Coding-recipes-v0.md
+├── Coding-recipes-v1.md
+├── LICENSE
+├── README.md
 ├── media
 ├── my-data
 ├── public
 │   ├── assets
 │   │   ├── css
-│   │   │   ├── site.css
-│   │   │   ├── uikit-rtl.css
-│   │   │   ├── uikit-rtl.min.css
-│   │   │   ├── uikit.css
-│   │   │   └── uikit.min.css
 │   │   ├── js
-│   │   │   ├── admin.js
+│   │   │   ├── o-commix.js
 │   │   │   ├── o-crud.js
 │   │   │   ├── o-test.js
 │   │   │   ├── site.js
@@ -95,7 +94,6 @@ php -S localhost:9876
 │   │   │   ├── uikit.min.js
 │   │   │   └── vue.esm-browser.prod.min.js
 │   │   └── media
-│   │       └── photo-1.jpg
 │   └── index.php
 ├── framework.php
 ├── class
@@ -118,9 +116,34 @@ php -S localhost:9876
     ├── api.php
     ├── home.php
     ├── post.php
-    └── robots.php
-
+    ├── robots.php
+    └── vue
+        ├── admin-app.php
+        └── admin.js
 ```
+
+### V0.2.4 ADD SQL TABLE GEOCMS AND VIEW POST
+
+* add SQL table geocms
+* add SQL view post built from geocms
+* update CRUD forms Vue and api_admin::crud() to use geocms
+
+* TODO: load tests...
+* expected sqlite file size depending on SQL data volume ?
+    * around 3K per SQL row ?
+    * around 3M per 1.000 SQL rows ?
+    * around 30M per 10.000 SQL rows ?
+    * around 300M per 100.000 SQL rows ?
+
+* typical blog website
+    * around 100 pages+posts
+        * = 100 pages/posts * 100 blocks per page
+        * around 10.000 SQL rows
+        * around 30M sqlite file size
+    * around 1.000 images
+* debug and improvements
+    * template can be PHP callable
+
 
 ## CREDITS
 

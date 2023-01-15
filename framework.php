@@ -28,12 +28,22 @@ class framework
         // setup core config
         $path_root = framework::$root;
         os::v("root", $path_root);
-        os::v("path_data", "$path_root/my-data");
-        os::v("db/sqlite/path", "$path_root/my-data/sqlite.db");
 
-        // load the config file if exists
-        $path_config = "$path_root/my-data/config.php";
+        // load the framework config file if exists
+        $path_config = "$path_root/my-config.php";
+        if (file_exists($path_config)) {
+            include $path_config;
+        }
+        else {
+            // launch framework install
+            cli::install();
+        }
+        
+        $path_data = os::v("path_data") ?? "$path_root/my-data";
+        os::v("db/sqlite/path", "$path_data/sqlite.db");
 
+        // load the project config file if exists
+        $path_config = "$path_data/config.php";
         if (file_exists($path_config)) {
             include $path_config;
         }

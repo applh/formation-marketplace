@@ -28,22 +28,22 @@ class api_admin
         if ($action == "create") {
             // get input from form: title, description, image, template, path
             $title = web::input("title");
-            $description = web::input("description");
-            $image = web::input("image");
+            $content = web::input("content");
+            $media = web::input("media");
             $template = web::input("template");
             $path = web::input("path");
 
             // create data array
             $data = array(
                 "title" => $title,
-                "description" => $description,
-                "image" => $image,
+                "content" => $content,
+                "media" => $media,
                 "template" => $template,
                 "path" => $path,
             );
 
             // create post
-            model::create("post", $data);
+            model::create("geocms", $data);
 
             // debug
             web::extra("feedback", "post created");
@@ -59,16 +59,16 @@ class api_admin
             if ($id > 0) {
                 // get input from form: title, description, image, template, path
                 $title = web::input("title");
-                $description = web::input("description");
-                $image = web::input("image");
+                $content = web::input("content");
+                $media = web::input("media");
                 $template = web::input("template");
                 $path = web::input("path");
 
                 // create data array
                 $data = array(
                     "title" => $title,
-                    "description" => $description,
-                    "image" => $image,
+                    "content" => $content,
+                    "media" => $media,
                     "template" => $template,
                     "path" => $path,
                 );
@@ -117,14 +117,15 @@ class api_admin
                 // security: convert to int
                 $id = intval($id);
                 // delete item
-                model::delete($table, $id);
+                $cud_table = cms::cud_table($table);
+                model::delete($cud_table, $id);
 
                 web::extra("feedback", "deleted: $table ($id)");
             }
 
-
             // if action is create
             if ($action == "create") {
+
                 // get inputs by form_inputs
                 $inputs = [];
                 foreach ($form_inputs as $input) {
@@ -135,8 +136,9 @@ class api_admin
                 // remove id if present
                 unset($inputs["id"]);
                 
+                $cud_table = cms::cud_table($table);
                 // create item
-                model::create($table, $inputs);
+                model::create($cud_table, $inputs);
 
                 web::extra("feedback", "created: $table");
             }
@@ -157,7 +159,8 @@ class api_admin
                 $id = intval($inputs["id"] ?? 0);
                 if ($id > 0) {
                     // update item
-                    model::update($table, $id, $inputs);
+                    $cud_table = cms::cud_table($table);
+                    model::update($cud_table, $id, $inputs);
                 }
 
                 web::extra("feedback", "updated: $table ($id)");
