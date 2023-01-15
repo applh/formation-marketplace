@@ -69,6 +69,7 @@ class sqlite
                 `link1` INTEGER,
                 `link2` INTEGER,
                 `linkname` TEXT,
+                `notes` TEXT,
                 `quantity` REAL,
                 `quality` TEXT,
                 `price` REAL
@@ -85,15 +86,17 @@ class sqlite
                 $db->exec($sql);
             }
  
-            // create table user with columns id, email, username, level, role, passhash, created, modified
+            // create table user with columns id, path, email, username, level, role, passhash, created, modified
             $sql = 
             <<<sql
             CREATE TABLE IF NOT EXISTS `user` (
                 `id` INTEGER PRIMARY KEY,
+                `path` TEXT,
                 `email` TEXT,
                 `username` TEXT,
                 `level` INTEGER,
                 `role` TEXT,
+                `notes` TEXT,
                 `passhash` TEXT,
                 `created` TEXT,
                 `modified` TEXT
@@ -101,14 +104,16 @@ class sqlite
             sql;
             $db->exec($sql);
 
-            // create table contact with columns id, name, email, message, created, modified, ip, user_agent
+            // create table contact with columns id, path, name, email, message, created, modified, ip, user_agent
             $sql = 
             <<<sql
             CREATE TABLE IF NOT EXISTS `contact` (
                 `id` INTEGER PRIMARY KEY,
+                `path` TEXT,
                 `name` TEXT,
                 `email` TEXT,
                 `message` TEXT,
+                `notes` TEXT,
                 `created` TEXT,
                 `modified` TEXT,
                 `ip` TEXT,
@@ -124,7 +129,7 @@ class sqlite
             $sql =
             <<<sql
             CREATE VIEW IF NOT EXISTS `post` AS
-            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, author_id, level
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, notes, author_id, level
             FROM geocms
             WHERE path IN ('post')
             ORDER BY created DESC, id DESC
@@ -136,7 +141,7 @@ class sqlite
             $sql =
             <<<sql
             CREATE VIEW IF NOT EXISTS `page` AS
-            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, author_id, level
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, notes, author_id, level
             FROM geocms
             WHERE path IN ('page')
             ORDER BY created DESC, id DESC

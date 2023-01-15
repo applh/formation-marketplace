@@ -172,16 +172,16 @@ let methods = {
 }
 
 let created = async function () {
-    this.main_app.test('o-crud created');
+    // this.main_app.test('o-crud created');
     // prop table is read only
     this.table_name = this.table;
 
 }
 
 let mounted = function () {
-    this.main_app.test('o-crud mounted');
+    // this.main_app.test('o-crud mounted');
 
-    console.log(this.center);
+    // console.log(this.center);
 }
 
 // vue js async component

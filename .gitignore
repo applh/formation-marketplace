@@ -8,3 +8,5 @@ yarn-error.log
 storage/*.key
 .env
 .phpunit.result.cache
+
+.DS_Store

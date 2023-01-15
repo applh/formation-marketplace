@@ -13,13 +13,13 @@ let data_compo = {
 };
 
 let setup = function () {
-    console.log('o-test SETUP');
+    // console.log('o-test SETUP');
 
     // warning: mixins are not available in setup 
     // common is not available as this.center
     // hack: but we can use commix.mixin.common or commix.common
-    console.log(commix.mixin.common.count++);
-    console.log(commix.common.count++);
+    // console.log(commix.mixin.common.count++);
+    // console.log(commix.common.count++);
 
     const toto = Vue.ref(0);
 
@@ -43,14 +43,14 @@ let methods = {
 }
 
 let created = function () {
-    this.main_app.test('o-test created');
-    console.log(this.toto++);
+    // this.main_app.test('o-test created');
+    // console.log(this.toto++);
 }
 
 let mounted = function () {
-    this.main_app.test('o-test mounted');
-    console.log(this.toto++);
-    console.log(this.hello);
+    // this.main_app.test('o-test mounted');
+    // console.log(this.toto++);
+    // console.log(this.hello);
 }
 
 

@@ -82,6 +82,44 @@ $model_post = [
     ],
 ];
 
+$model_page = [
+    [
+        "name" => "id",
+        "label" => "id",
+        "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "title",
+        "label" => "Title",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "content",
+        "label" => "content",
+        "type" => "textarea",
+        "val" => "",
+    ],
+    [
+        "name" => "media",
+        "label" => "media",
+        "type" => "text",
+        "val" => "https://picsum.photos/id/4/640/640.jpg",
+    ],
+    [
+        "name" => "template",
+        "label" => "Template",
+        "type" => "text",
+        "val" => "post",
+    ],
+    [
+        "name" => "path",
+        "label" => "Path",
+        "type" => "text",
+        "val" => "page",
+    ],
+];
 $model_user = [
     [
         "name" => "id",
@@ -115,7 +153,42 @@ $model_user = [
     ],
 ];
 
+$model_contact = [
+    [
+        "name" => "id",
+        "label" => "id",
+        "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "path",
+        "label" => "path",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "name",
+        "label" => "name",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "email",
+        "label" => "Email",
+        "type" => "email",
+        "val" => "",
+    ],
+    [
+        "name" => "message",
+        "label" => "message",
+        "type" => "text",
+        "val" => "",
+    ],
+];
+
+cms::add("page", $model_page);
 cms::add("post", $model_post);
 cms::add("user", $model_user);
+cms::add("contact", $model_contact);
 
 //_file_end_

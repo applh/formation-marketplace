@@ -49,12 +49,13 @@ class api_public
             return;
         }
 
+        $data["path"] = "contact";
         // add timestamp
-        $data['created'] = $now;
+        $data["created"] = $now;
         // add ip 
-        $data['ip'] = $_SERVER['REMOTE_ADDR'] ?? "";
+        $data["ip"] = $_SERVER["REMOTE_ADDR"] ?? "";
         // add user agent
-        $data['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? "";
+        $data["user_agent"] = $_SERVER["HTTP_USER_AGENT"] ?? "";
         
         // create local variables from array
         extract($data);

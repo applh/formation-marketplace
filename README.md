@@ -149,6 +149,15 @@ php -S localhost:9876
 * debug and improvements
     * correct SQL model
 
+### V0.2.6 DEBUG
+
+* cleanup admin page
+    * add o-panel component, responsive grid layout
+    * add more vue components
+
+* debug and improvements
+    * upgrade SQL model
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

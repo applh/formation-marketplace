@@ -11,16 +11,17 @@
 
     <title>ADMIN</title>
 
-    <link rel="stylesheet" href="/assets/css/uikit.min.css">
+    <!-- <link rel="stylesheet" href="/assets/css/uikit.min.css"> -->
     <link rel="stylesheet" href="/assets/css/site.css">
     <style>
         /* admin only css */
         /* limit height to 5 rem */
-        td > div {
+        td>div {
             max-height: 5rem;
             overflow-y: auto;
         }
-        td > div:hover {
+
+        td>div:hover {
             max-height: 10rem;
             overflow-y: auto;
         }
@@ -28,39 +29,132 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="/">home</a>
-            <a href="/admin">admin</a>
-        </nav>
-    </header>
+    <!-- add vuejs 3 app -->
+    <div class="box-vue">
+        <div id="app"></div>
+        <template id="appTemplate" data-compos="panel sidebar crud geocms post post-crud test">
+            <o-panel></o-panel>
+        </template>
+    </div>
+    <script type="module">
+        // check if .box-vue is present
+        let box_vue = document.querySelector('.box-vue');
+        if (box_vue) {
+            // import vue js 3
+            // better way to load Vue ?
+            let Vue = await import('/assets/js/vue.esm-browser.prod.min.js');
 
-    <main>
-        <h1>ADMIN</h1>
-        <p>Current time: <?php echo $now; ?></p>
+            let commix = await import('/assets/js/o-commix.js');
+            let mixins = [commix.default.mixin]; // warning: must add .default
 
-        <div class="box-crud">
-            <!-- Vue will teleport crud here -->
-        </div>
+            // create vue app
+            // separate data for better readability
+            const appData = {
+                cud_action_post: 'create',
+                admin_api_key: '',
+                extra_js: [
+                    '/assets/js/uikit.min.js',
+                    '/assets/js/uikit-icons.min.js',
+                ],
+                extra_css: [
+                    '/assets/css/uikit.min.css'
+                ],
+                api_uri: '/api', // using PHP framework router
+                posts: [],
+                api_feedback: '...',
+                message: 'Hello Vue 3!'
+            };
 
-        <div class="box-posts">
-            <!-- Vue will teleport posts here -->
-        </div>
-    </main>
+            const app = Vue.createApp({
+                template: '#appTemplate',
+                mixins,
+                data: () => appData,
+                async created() {
 
-    <footer>
-        <nav>
-            <a href="/">home</a>
-            <a href="/credits">credits</a>
-            <a href="/#form-contact">contact us</a>
-        </nav>
-        <p>Your MarketPlace &copy; 2023</p>
-    </footer>
+                    // WARNING: REGISTER ASYNC COMPONENTS FIRST
+                    // <template id="appTemplate" data-compos="test">
+                    let appTemplate = document.querySelector('#appTemplate');
+                    let compos = appTemplate?.getAttribute("data-compos");
+                    if (compos) {
+                        compos = compos.split(' ');
+                        compos.forEach(function(name) {
+                            app.component(
+                                'o-' + name,
+                                Vue.defineAsyncComponent(() => import(`/assets/js/o-${name}.js`))
+                            );
+                        });
+                    }
 
-<?php require __DIR__ . "/vue/admin-app.php"; ?>  
-<script type="module">
-<?php require __DIR__ . "/vue/admin.js"; ?>  
-</script>
+                    // load extra css files
+                    this.extra_css.forEach((css) => {
+                        this.load_css(css);
+                    });
+
+                    // load extra js files
+                    this.extra_js.forEach((js) => {
+                        this.load_js(js);
+                    });
+
+                    // load posts from api
+                    let data = new FormData();
+                    data.append('m', 'posts');
+                    // fetch data from api
+                    let response = await fetch(this.api_uri, {
+                        method: 'POST',
+                        body: data
+                    });
+                    let json = await response.json();
+                    this.api_feedback = json.feedback ?? 'xxx';
+                    this.posts = json.posts ?? [];
+
+                    this.center.title = 'MY TITLE';
+                    this.center.count = 123;
+                },
+                async mounted() {
+                    // load admin_api_key from local storage
+                    this.admin_api_key = localStorage.getItem('admin_api_key');
+                },
+                provide() {
+                    return {
+                        // tricky way to pass 'this' to child components
+                        main_app: this,
+                    }
+                },
+                methods: {
+                    async send_form(event) {
+                        event.preventDefault();
+                        let form = event.target;
+                        // console.log(form);
+                        let data = new FormData(form);
+                        let response = await fetch(this.api_uri, {
+                            method: 'POST',
+                            body: data
+                        });
+                        let json = await response.json();
+                        console.log(json);
+                        this.api_feedback = json.feedback ?? 'xxx';
+
+                        if (json.posts) {
+                            // refresh posts
+                            this.posts = json.posts;
+                        }
+
+                    },
+                    async test(p = '') {
+                        console.log('test: ' + p);
+                        this.test2(p);
+                    },
+                    async login() {
+                        // save admin_api_key to local storage
+                        localStorage.setItem('admin_api_key', this.admin_api_key);
+                    }
+                }
+            });
+
+            // mount vue app
+            app.mount('#app');
+        }
+    </script>
 
 </body>
 
