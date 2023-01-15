@@ -66,7 +66,7 @@ class model
     static function load ()
     {
         // load posts from my-data/posts.json
-        $path_data = framework::$root . '/my-data';
+        $path_data = os::v("path_data") ?? framework::$root . '/my-data';
         $path_posts = $path_data . '/posts.json';
 
         // if file exists

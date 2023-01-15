@@ -21,6 +21,7 @@ class sqlite
         $path_data = os::v("path_data");
         $path_db = os::v("db/sqlite/path") ?? "$path_data/sqlite.db";
         if (!file_exists($path_db)) {
+            // error_log("connect to sqlite database: $path_db");
             // create sqlite database in file my-data/sqlite.db with PDO
             $db = new PDO("sqlite:$path_db");
         }
@@ -160,11 +161,13 @@ class sqlite
 
         // only create the connexion once if it does not exist
         $path_root = framework::$root;
-        $path_db = "$path_root/my-data/sqlite.db";
+        $path_data = os::v("path_data") ?? "$path_root/my-data";
+        $path_db = "$path_data/sqlite.db";
         if (!file_exists($path_db)) {
             sqlite::db_create();
         }
         $db = new PDO("sqlite:$path_db");
+        error_log("connect to sqlite database: $path_db");
         return $db;
     }
 

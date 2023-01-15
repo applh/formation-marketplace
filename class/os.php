@@ -35,6 +35,17 @@ class os
         return $src ? md5($src) : md5(password_hash(uniqid(rand(), true), PASSWORD_DEFAULT));
     }
 
+    static function run ($checkpoint)
+    {
+        $cmds = os::v($checkpoint) ?? [];
+        foreach ($cmds as $cmd) {
+            $cmd = !is_string($cmd) ?: trim($cmd);
+            if (is_callable($cmd)) {
+                $cmd();
+            }
+        }
+    }
+
     //_class_end_
 }
 

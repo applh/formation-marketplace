@@ -40,6 +40,9 @@ class framework
         }
         
         $path_data = os::v("path_data") ?? "$path_root/my-data";
+
+        os::run("framework/run/path_data");
+
         os::v("db/sqlite/path", "$path_data/sqlite.db");
 
         // load the project config file if exists

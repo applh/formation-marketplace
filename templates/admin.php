@@ -112,7 +112,7 @@
                 },
                 async mounted() {
                     // load admin_api_key from local storage
-                    this.admin_api_key = localStorage.getItem('admin_api_key');
+                    this.center.api_admin_key = localStorage.getItem('api_admin_key');
                 },
                 provide() {
                     return {
@@ -144,10 +144,6 @@
                         console.log('test: ' + p);
                         this.test2(p);
                     },
-                    async login() {
-                        // save admin_api_key to local storage
-                        localStorage.setItem('admin_api_key', this.admin_api_key);
-                    }
                 }
             });
 

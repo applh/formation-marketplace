@@ -19,6 +19,10 @@ Build your own marketplace with PHP+SQL
 # and start the web server with this command
 php -S localhost:9876
 
+OR
+
+php framework.php web 9876
+
 ```
 
 * Inside VSCode, you can develop by SSH and use port forwarding to view the web page in your local browser
@@ -157,6 +161,16 @@ php -S localhost:9876
 
 * debug and improvements
     * upgrade SQL model
+
+### V0.2.7 MULTIDOMAIN
+
+* add os::run method to run an array of callable
+  * hooks by path to allow plugins to add their own callables
+* add multi-domain config to allow separate data folders per domain
+
+* debug and improvements
+    * admin sidebar menu 
+    * move data from o-crud component to o-commix component to separate MVC
 
 ## CREDITS
 

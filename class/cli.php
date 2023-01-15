@@ -58,8 +58,32 @@ class cli
         print_r($logs);
     }
 
+    static function init_path_data () {
+        header("X-Debug-init: init");
+        $path_data = os::v("path_data");
+        // if dir not exists then exec cli::install
+        // error_log("path_data: $path_data");
+        if (!file_exists($path_data)) {
+            cli::install();
+        }
+    }
+
     static function install ()
     {
+        $path_root = os::v("root") ?? dirname(__DIR__);
+
+        // create my-config.php if not exists
+        $path_config = "$path_root/my-config.php";
+        if (!file_exists($path_config)) {
+            $path_sample_config = framework::$root . "/media/sample-root-config.php";
+
+            // read the content 
+            // and change the placeholder YOUR_ADMIN_API_KEY with a random string
+            $data = file_get_contents($path_sample_config);
+            $data = str_replace("YOUR_ROOT_ADMIN_API_KEY", os::md5(), $data);
+            file_put_contents($path_config, $data);
+        }
+        
         // create my-data folder
         $path_data = os::v("path_data") ?? dirname(__DIR__) . "/my-data";
         // set path_data if not exists
@@ -165,9 +189,12 @@ class cli
 
     static function web ()
     {
+        // get parameter 3
+        $port = cli::$args[2] ?? "9876";
+
         // launch PHP local web server with root as public
         $doc_root = os::v("root") . "/public";
-        $command = "php -S localhost:9876 -t $doc_root";
+        $command = "php -S localhost:$port -t $doc_root";
         $logs = [];
         $logs[] = "launch web server";
         $logs[] = "doc root: $doc_root";

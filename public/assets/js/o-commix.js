@@ -8,6 +8,13 @@ let common = Vue.reactive({
     window_w: window.innerWidth,
     window_h: window.innerHeight,
     api_feedback: '...',
+    api_admin_key: '...',
+    // crud components
+    items: {},
+    update_forms: {},
+    create_forms: {},
+    options: {},
+
 });
 
 // add event listener on window resize

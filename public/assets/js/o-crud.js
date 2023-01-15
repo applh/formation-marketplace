@@ -8,9 +8,7 @@ let inject = [ 'main_app' ];
 let props = [ 'title', 'table' ];
 
 let data_compo = {
-    form_update: [],
-    form_create: [],
-    options: {
+    options_default: {
         show_panel: true,
         show_list: true,
         show_create: false,
@@ -18,7 +16,6 @@ let data_compo = {
     },
     table_name: '',
     feedback: '...',
-    items: [],
 }
 
 let template = `
@@ -73,11 +70,11 @@ let template = `
         </div>   
 
         <h4>
-        {{ items.length + ' ' + table_name + '(s)' }}
+        {{ items?.length + ' ' + table_name + '(s)' }}
         <label><input class="uk-checkbox" type="checkbox" v-model="options.show_list"></label>
         </h4>
         <div class="uk-overflow-auto" v-if="options.show_list">
-            <table class="uk-table uk-table-striped" v-if="items.length > 0">
+            <table class="uk-table uk-table-striped" v-if="items?.length > 0">
                 <thead>
                     <tr>
                         <th>Delete</th>
@@ -103,11 +100,32 @@ let template = `
 </div>
 `;
 
+
+let computed = {
+    items () {
+        return this.center.items[this.table_name] ?? [];
+    },
+    form_create () {
+        return this.center.create_forms[this.table_name] ?? [];
+    },
+    form_update () {
+        return this.center.update_forms[this.table_name] ?? [];
+    },
+    options () {
+        // if not set, set default options
+        let co = this.center.options;
+        if (!co[this.table_name]) {
+            co[this.table_name] = this.options_default;
+        }
+        return co[this.table_name];
+    }
+}
+
 let methods = {
     build_form_data () {
         // build form data common to all api calls
         let data = new FormData();
-        data.append('k', this.main_app.admin_api_key);
+        data.append('k', this.center.api_admin_key);
         data.append('c', 'admin');
         data.append('m', 'crud');
         data.append('table', this.table_name);
@@ -121,11 +139,11 @@ let methods = {
         });
         let json = await response.json();
         this.feedback = json.feedback ?? 'xxx';
-        this.items = json.items ?? [];
+        this.center.items[this.table_name] = json.items ?? [];
 
         // get form_create and form_update from api
-        this.form_create = json.form_create ?? [];
-        this.form_update = json.form_update ?? [];
+        this.center.create_forms[this.table_name] = json.form_create ?? [];
+        this.center.update_forms[this.table_name] = json.form_update ?? [];
     },
     copy_update_form (item) {
         console.log('copy_update_form', item);
@@ -193,6 +211,7 @@ export default {
     // https://code.tutsplus.com/articles/the-best-way-to-deep-copy-an-object-in-javascript--cms-39655
     data: () => JSON.parse(JSON.stringify(data_compo)),
     mixins,
+    computed,
     // setup,
     methods,
     created,
