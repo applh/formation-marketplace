@@ -46,6 +46,28 @@ class os
         }
     }
 
+    static function filename_cleanup ($name)
+    {
+        // and replace non alphanumeric characters with "-"
+        $filename = pathinfo($name, PATHINFO_FILENAME) ?? "";
+        $filename = preg_replace("/[^a-zA-Z0-9]/", "-", $filename);
+        $filename = trim($filename, "-");
+        // remove double "-"
+        $filename = preg_replace("/-+/", "-", $filename);
+        // lowercase
+        $filename = strtolower($filename);
+
+        return $filename;
+    }
+
+    static function extension_cleanup ($name)
+    {
+        $ext = pathinfo($name, PATHINFO_EXTENSION) ?? "";
+        $ext = strtolower($ext);
+        $ext = trim($ext);
+        return $ext;
+    }
+    
     //_class_end_
 }
 

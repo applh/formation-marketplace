@@ -130,12 +130,30 @@ class api_admin
                 $inputs = [];
                 foreach ($form_inputs as $input) {
                     $name = $input["name"];
-                    $val = web::input($name);
+                    $type = $input["type"];
+                    // if type is file then get file
+                    if ($type == "file") {
+                        $val = web::input_file($name);
+                    } else {
+                        $val = web::input($name);
+                    }
                     $inputs[$name] = $val;
                 }
                 // remove id if present
                 unset($inputs["id"]);
                 
+                // media extra processing
+                if ($table == "media") {
+                    // if $inputs["uri"] is empty then copy $inputs["media"] to $inputs["uri"]
+                    if ($inputs["uri"] == "") {
+                        $inputs["uri"] = $inputs["media"];
+                    }
+                    // if $inputs["filename"] is empty then copy $inputs["media"] to $inputs["filename"]
+                    if ("" == ($inputs["filename"] ?? "")) {
+                        $inputs["filename"] = $inputs["media"];
+                    }
+                }
+
                 $cud_table = cms::cud_table($table);
                 // create item
                 model::create($cud_table, $inputs);

@@ -203,4 +203,67 @@ class cli
         passthru($command);
 
     }
+
+    static function media_sync ()
+    {
+        // get parameter 3
+        $data_dir = cli::$args[2] ?? "my-data";
+
+        // list aff files in $path_data/uploads
+        // and for each file, check if it exists a line in table media at column media
+        // if not, create a line in table media
+        $path_data = os::v("root") . "/$data_dir";
+        // setup path_data
+        os::v("path_data", $path_data);
+
+        print_r(os::$vars);
+
+        $path_uploads = $path_data . "/uploads";
+        $files = glob("$path_uploads/*.*");
+        echo "files in $path_uploads: ";
+        print_r($files);
+        foreach ($files as $file) {
+            // cleanup file name
+            $basename = basename($file);
+            // md5sum
+            $md5sum = md5_file($file);
+
+            $extension = os::extension_cleanup($basename);
+            $file = os::filename_cleanup($basename);
+            $basename2 = "$file.$extension";
+            // if $basename is not equal to $basename2, rename the file
+            if ($basename != $basename2) {
+                $new_file = "$path_uploads/$basename2";
+                rename("$path_uploads/$basename", $new_file);
+                $basename = $basename2;
+            }
+
+            $row = model::read1("media", $basename, "media");
+            if (!$row) {
+                $data = [
+                    "media" => $basename,
+                    "path" => "media",
+                    "filename" => $md5sum,
+                    "created" => date("Y-m-d H:i:s"),
+                    "modified" => date("Y-m-d H:i:s"),
+                ];
+
+                echo "create line in table media for file $basename";
+                // print_r($data);
+
+                model::create("geocms", $data);
+            }
+            else {
+
+                echo "line already exists in table media for file $basename";
+                // print_r($row);
+                // update filename with md5sum
+                $data = [
+                    "filename" => $md5sum,
+                    "modified" => date("Y-m-d H:i:s"),
+                ];
+                model::update("geocms", $row["id"], $data);
+            }
+        }
+    }
 }

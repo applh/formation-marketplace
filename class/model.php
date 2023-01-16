@@ -158,6 +158,17 @@ class model
         return false;
     }
 
+    static function read1 ($table, $val = null, $col = "id", $more = "ORDER BY `id` DESC")
+    {
+        $lines = model::read($table, $val, $col, $more);
+        if ($lines) {
+            return $lines[0] ?? null;
+        }
+        else {
+            return null;
+        }
+    }
+
     static function update ($table, $id, $data)
     {
         // update the line with id = $id in $table with columns $data
@@ -211,19 +222,25 @@ class model
             $pdo = sqlite::pdo();
             $pdost = $pdo->prepare($sqlp);
             if ($pdost->execute($data)) {
+                model::debug($pdost);
+
                 return $pdost;
             }
         } catch (Exception $e) {
-            ob_start();
-            if ($pdost ?? false) {
-                $pdost->debugDumpParams();
-            }
-            $debug = ob_get_clean();
-            error_log($debug);
+            model::debug($pdost);
             error_log($e->getMessage());
             error_log(json_encode($data, JSON_PRETTY_PRINT));
         }
         return false;
+    }
+    static function debug ($pdost)
+    {
+        ob_start();
+        if ($pdost ?? false) {
+            $pdost->debugDumpParams();
+        }
+        $debug = ob_get_clean();
+        // error_log($debug);
     }
 
     static function last_id ()

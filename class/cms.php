@@ -19,7 +19,9 @@ class cms
     static $cud_tables = [
         "post"  => "geocms",
         "page"  => "geocms",
+        "media"  => "geocms",
     ];
+
     static function add ($name, $model)
     {
         // add model to array
@@ -48,6 +50,12 @@ $model_post = [
         "name" => "id",
         "label" => "id",
         "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "uri",
+        "label" => "URI",
+        "type" => "text",
         "val" => "",
     ],
     [
@@ -90,6 +98,12 @@ $model_page = [
         "val" => "",
     ],
     [
+        "name" => "uri",
+        "label" => "URI",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
         "name" => "title",
         "label" => "Title",
         "type" => "text",
@@ -120,6 +134,53 @@ $model_page = [
         "val" => "page",
     ],
 ];
+
+
+$model_media = [
+    [
+        "name" => "id",
+        "label" => "id",
+        "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "uri",
+        "label" => "URI",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "title",
+        "label" => "Title",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "content",
+        "label" => "content",
+        "type" => "textarea",
+        "val" => "",
+    ],
+    [
+        "name" => "media",
+        "label" => "media",
+        "type" => "file",
+        "val" => "",
+    ],
+    [
+        "name" => "template",
+        "label" => "Template",
+        "type" => "text",
+        "val" => "post",
+    ],
+    [
+        "name" => "path",
+        "label" => "Path",
+        "type" => "text",
+        "val" => "media",
+    ],
+];
+
 $model_user = [
     [
         "name" => "id",
@@ -186,9 +247,102 @@ $model_contact = [
     ],
 ];
 
+$model_menu = [
+    [
+        "name" => "id",
+        "label" => "id",
+        "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "uri",
+        "label" => "URI",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "title",
+        "label" => "Title",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "content",
+        "label" => "content",
+        "type" => "textarea",
+        "val" => "",
+    ],
+    [
+        "name" => "media",
+        "label" => "media",
+        "type" => "text",
+        "val" => "https://picsum.photos/id/4/640/640.jpg",
+    ],
+    [
+        "name" => "template",
+        "label" => "Template",
+        "type" => "text",
+        "val" => "post",
+    ],
+    [
+        "name" => "path",
+        "label" => "Path",
+        "type" => "text",
+        "val" => "menu",
+    ],
+];
+
+$model_task = [
+    [
+        "name" => "id",
+        "label" => "id",
+        "type" => "number",
+        "val" => "",
+    ],
+    [
+        "name" => "uri",
+        "label" => "URI",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "title",
+        "label" => "Title",
+        "type" => "text",
+        "val" => "",
+    ],
+    [
+        "name" => "content",
+        "label" => "content",
+        "type" => "textarea",
+        "val" => "",
+    ],
+    [
+        "name" => "media",
+        "label" => "media",
+        "type" => "text",
+        "val" => "https://picsum.photos/id/4/640/640.jpg",
+    ],
+    [
+        "name" => "template",
+        "label" => "Template",
+        "type" => "text",
+        "val" => "post",
+    ],
+    [
+        "name" => "path",
+        "label" => "Path",
+        "type" => "text",
+        "val" => "task",
+    ],
+];
+
 cms::add("page", $model_page);
+cms::add("menu", $model_menu);
 cms::add("post", $model_post);
+cms::add("media", $model_media);
 cms::add("user", $model_user);
 cms::add("contact", $model_contact);
+cms::add("task", $model_task);
 
 //_file_end_

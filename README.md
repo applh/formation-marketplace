@@ -172,6 +172,20 @@ php framework.php web 9876
     * admin sidebar menu 
     * move data from o-crud component to o-commix component to separate MVC
 
+### V0.2.8 UPLOAD
+
+* uploads from different domains are stored in different folders
+* BUT if you want to mix uploads from different domains
+    * you can use the same upload folder
+    * and name the file with md5 hash signature of the content
+    * no more duplicate files ;-p
+    * but keep original extension for easier browsing  
+
+* debug and improvements
+    * add template slide.php
+    * add Vue form upload 
+    * add Roboto Mono font
+
 ## CREDITS
 
 * Thanks to Pexels for the free images

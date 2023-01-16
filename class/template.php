@@ -46,6 +46,7 @@ class template
             "now" => $now,
             "feedback" => "api is ready ($now)",
             "request" => $_REQUEST,
+            "files" => $_FILES,
         ];
         // add extras
         $data = array_merge($data, web::$extras);

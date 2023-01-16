@@ -19,11 +19,12 @@ let data_compo = {
 }
 
 let template = `
-<div class="uk-container">
-    <h3>
-    {{ title }}
-    <label><input class="uk-checkbox" type="checkbox" v-model="options.show_panel"></label>
+<div class="uk-container o-crud">
+    <h3 class="uk-grid" uk-grid>
+        <span class="uk-width-expand">{{ title }}</span>
+        <label><input class="uk-checkbox" type="checkbox" v-model="options.show_panel"></label>
     </h3>
+
     <div class="uk-margin" v-show="options.show_panel">
         <div class="uk-flex-inline">
             <input class="uk-input" type="text" v-model="table_name">
@@ -41,6 +42,7 @@ let template = `
                     <form @submit.prevent="item_add($event)">
                         <div class="uk-margin" v-for="field in form_create">
                             <textarea v-if="field.type=='textarea'" class="uk-textarea" rows="10" :name="field.name" :placeholder="field.label" :aria-label="field.label" v-model="field.val"></textarea>
+                            <input v-else-if="field.type=='file'" :type="field.type" :placeholder="field.label" @change="updateFile(field, $event)">
                             <input v-else class="uk-input" :type="field.type" :name="field.name" :placeholder="field.label" :aria-label="field.label" v-model="field.val">
                         </div>
                         <div class="uk-margin">
@@ -122,6 +124,10 @@ let computed = {
 }
 
 let methods = {
+    updateFile(input, e) {
+        input.files = e.target.files || e.dataTransfer.files;
+        console.log(input.files);
+    },
     build_form_data () {
         // build form data common to all api calls
         let data = new FormData();
@@ -169,7 +175,16 @@ let methods = {
         data.append('action', 'create');
         // get form data from event.target
         for (let field of this.form_create) {
-            data.append(field.name, event.target[field.name].value);
+            if (field.type == 'file') {
+                // console.log(field.files);
+                if (field.files ?? false) {
+                    if (field.files.length > 0) {
+                        data.append(field.name, field.files[0]);
+                    }
+                }
+            }
+            else
+                data.append(field.name, event.target[field.name].value);
         }
 
         this.send_form_data(data);

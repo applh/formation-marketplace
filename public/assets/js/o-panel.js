@@ -8,12 +8,12 @@ let panel_default =
     <div class="uk-width-1-6">
         <o-sidebar></o-sidebar>
     </div>
-    <div class="uk-width-5-6" uk-grid uk-height-match>
-    <div class="uk-width-1-2">
-        <div class="uk-card uk-card-default uk-card-body">
-            <h3 class="uk-card-title">Welcome</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
+    <div class="uk-width-5-6" uk-grid uk-height-match uk-sortable>
+        <div class="uk-width-1-2">
+            <div class="uk-card uk-card-default uk-card-body">
+                <h3 class="uk-card-title">Welcome</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
         </div>            
         <div class="uk-width-1-2">
             <div class="uk-card uk-card-default uk-card-body">
@@ -27,6 +27,9 @@ let panel_default =
         <div class="uk-width-1-2">
             <o-crud title="post" table="post"></o-crud>
         </div> 
+        <div class="uk-width-1-2">
+            <o-crud title="media" table="media"></o-crud>
+        </div> 
     </div>
 
     <div class="uk-width-1-2">
@@ -37,12 +40,6 @@ let panel_default =
     </div> 
     <div class="uk-width-1-2">
         <o-post></o-post>
-    </div> 
-    <div class="uk-width-1-2">
-        <o-post-crud></o-post-crud>
-    </div> 
-    <div class="uk-width-1-2">
-        <o-post-crud></o-post-crud>
     </div> 
     <div class="uk-width-1-2">
         <o-test></o-test>

@@ -25,6 +25,13 @@
             max-height: 10rem;
             overflow-y: auto;
         }
+        .o-crud {
+            border: 1px solid #ccc;
+        }
+        .o-crud > h3 {
+            padding: 1rem;
+            border-bottom: 1px solid #ccc;
+        }
     </style>
 </head>
 
@@ -86,13 +93,13 @@
                     }
 
                     // load extra css files
-                    this.extra_css.forEach((css) => {
-                        this.load_css(css);
+                    this.extra_css.forEach(async (css) => {
+                        await this.load_css(css);
                     });
 
                     // load extra js files
-                    this.extra_js.forEach((js) => {
-                        this.load_js(js);
+                    this.extra_js.forEach(async (js) => {
+                        await this.load_js(js);
                     });
 
                     // load posts from api

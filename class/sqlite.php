@@ -149,6 +149,42 @@ class sqlite
             sql;
             $db->exec($sql);
 
+            // create view media with columns id, path, filename, ext, uri, template, title, media, description, created, modified, status, tags, cats, author_id, level
+            // order by created desc then by id desc
+            $sql =
+            <<<sql
+            CREATE VIEW IF NOT EXISTS `media` AS
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, notes, author_id, level
+            FROM geocms
+            WHERE path IN ('media')
+            ORDER BY created DESC, id DESC
+            sql;
+            $db->exec($sql);
+
+            // create view menu with columns id, path, filename, ext, uri, template, title, media, description, created, modified, status, tags, cats, author_id, level
+            // order by created desc then by id desc
+            $sql =
+            <<<sql
+            CREATE VIEW IF NOT EXISTS `menu` AS
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, notes, author_id, level
+            FROM geocms
+            WHERE path IN ('menu')
+            ORDER BY created DESC, id DESC
+            sql;
+            $db->exec($sql);
+
+            // create view task with columns id, path, filename, ext, uri, template, title, media, description, created, modified, status, tags, cats, author_id, level
+            // order by created desc then by id desc
+            $sql =
+            <<<sql
+            CREATE VIEW IF NOT EXISTS `task` AS
+            SELECT id, path, filename, ext, uri, template, title, media, content, created, modified, status, tags, cats, notes, author_id, level
+            FROM geocms
+            WHERE path IN ('task')
+            ORDER BY created DESC, id DESC
+            sql;
+            $db->exec($sql);
+
         }        
     }
 
@@ -167,7 +203,7 @@ class sqlite
             sqlite::db_create();
         }
         $db = new PDO("sqlite:$path_db");
-        error_log("connect to sqlite database: $path_db");
+        // error_log("connect to sqlite database: $path_db");
         return $db;
     }
 

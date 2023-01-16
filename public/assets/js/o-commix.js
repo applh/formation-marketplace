@@ -42,7 +42,7 @@ let mixin = {
         } 
     },
     methods: {
-        load_js(url, async = true) {
+        async load_js(url, async = true) {
             let el = document.createElement('script');
 
             el.setAttribute('src', url);
@@ -60,7 +60,7 @@ let mixin = {
                 console.log('Error on loading file: ' + url, e);
             });
         },
-        load_css(url, async = true) {
+        async load_css(url, async = true) {
             let el = document.createElement('link');
 
             el.setAttribute('href', url);
