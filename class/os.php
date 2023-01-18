@@ -68,6 +68,34 @@ class os
         return $ext;
     }
     
+    static function dirname_cleanup ($path)
+    {
+        // remove double "/", non alphanumeric characters, and replace them with "-"
+        $path = preg_replace("/\/+/", "/", $path);
+        $path = preg_replace("/[^a-zA-Z0-9\/]/", "-", $path);
+        // and remove leading and trailing "-" and "/"
+        $path = trim($path, "-/");
+        // and lowercase
+        $path = strtolower($path);
+        // and remove double "-"
+        $path = preg_replace("/-+/", "-", $path);
+
+        return $path;
+    }
+
+    static function path_cleanup ($fullpath)
+    {
+        extract(pathinfo($fullpath));
+        $dirname ??= "";
+        $filename ??= "";
+        $extension ??= "";
+
+        $dirname = os::dirname_cleanup($dirname);
+        $filename = os::filename_cleanup($basename);
+        $extension = os::extension_cleanup($basename);
+        return "$dirname/$filename.$extension";
+    }
+
     //_class_end_
 }
 

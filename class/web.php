@@ -71,6 +71,9 @@ class web
         }
         // debug to the header
         header("X-URI: $uri,$filename,$template");
+        // store $filename for later use
+        os::v("web/server/filename", $filename);
+
         // check if $template contains "::"
         if (strpos($template, "::") !== false) {
             $template = trim($template);

@@ -186,9 +186,22 @@ php framework.php web 9876
     * add Vue form upload 
     * add Roboto Mono font
 
+### V0.2.9 VIDEO BYTE RANGE
+
+* PHP local web server doesn't support Byte Range requests on static files
+  * create a PHP template to serve video files
+  * https://github.com/rvflorian/byte-serving-php
+  * add class bysteserver to serve video files Byte Range requests
+
+* HTML and JS video API needs Byte Range requests to stream video dynamically
+  * video.currentTime
+  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests
+  * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+
+
 ## CREDITS
 
-* Thanks to Pexels for the free images
+* Thanks to Pexels for the free images and videos
 * Thanks to Lorem Picsum for the free images
 
 
