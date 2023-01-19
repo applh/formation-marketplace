@@ -165,7 +165,7 @@ php framework.php web 9876
 ### V0.2.7 MULTIDOMAIN
 
 * add os::run method to run an array of callable
-  * hooks by path to allow plugins to add their own callables
+    * hooks by path to allow plugins to add their own callables
 * add multi-domain config to allow separate data folders per domain
 
 * debug and improvements
@@ -189,14 +189,46 @@ php framework.php web 9876
 ### V0.2.9 VIDEO BYTE RANGE
 
 * PHP local web server doesn't support Byte Range requests on static files
-  * create a PHP template to serve video files
-  * https://github.com/rvflorian/byte-serving-php
-  * add class bysteserver to serve video files Byte Range requests
+    * create a PHP template to serve video files
+    * https://github.com/rvflorian/byte-serving-php
+    * add class bysteserver to serve video files Byte Range requests
 
 * HTML and JS video API needs Byte Range requests to stream video dynamically
-  * video.currentTime
-  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests
-  * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+    * video.currentTime
+    * https://developer.mozilla.org/en-US/docs/Web/HTTP/Range_requests
+    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement
+
+
+### V0.3.0 MEMBER AREA
+
+* Admin area can be a bit messy as admins can do everything
+* Member area is a very important as it's the public face of your app
+  * To build a strong community quickly
+  * Member area is the place where you can monetize your app
+  * Member area is the place where you can build a strong community
+  * Member area must be easy to use and understand
+  * Member area must be easy to customize
+  * Member area must be easy to extend
+  * Member must be secured and performant
+
+* debug and improvements
+    * add template member.php
+    * add Vue form login
+    * add Vue form register
+    * add Vue form forgot password
+    * add Vue form reset password
+    * add Vue form profile
+    * add Vue form logout
+    * add Vue form delete account
+    * add Vue form change password
+    * add Vue form change email
+    * add Vue form change username
+    * add Vue form change avatar
+    * add Vue form change cover
+    * add Vue form change bio
+    * add Vue form change location
+    * add Vue form change website
+    * add Vue form change birthday
 
 
 ## CREDITS

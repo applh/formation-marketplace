@@ -129,6 +129,26 @@ class model
 
     }
 
+    static function create1 ($table, $col, $value, $data)
+    {
+        // add a new line only if $col = $value does not exist
+        // insert a new line in $table with columns $data
+        // check if $col = $value exists in $table
+        // print_r($col);
+        // print_r($value);
+        $line = model::read1($table, $value, $col);
+        // var_dump($line);
+        if ($line) {
+            return $line;
+        }
+        else {
+            // create the line
+            model::create($table, $data);
+            return model::last_id();
+        }
+
+    }
+
     static function read ($table, $val = null, $col = "id", $more = "ORDER BY `id` DESC")
     {
         // read all lines from $table
@@ -139,7 +159,9 @@ class model
         $tokens = [];
         if ($val) {
             $where = " WHERE `$col` = :$col";
-            $tokens = [":$col" => $val];
+            $tokens = ["$col" => $val];
+            // $where = " WHERE `$col` = '$val'";
+            // $tokens = [];
         }
 
         $sqlp =
@@ -155,18 +177,13 @@ class model
         if ($pdost) {
             return $pdost->fetchAll(PDO::FETCH_ASSOC);
         }
-        return false;
+        return [];
     }
 
     static function read1 ($table, $val = null, $col = "id", $more = "ORDER BY `id` DESC")
     {
         $lines = model::read($table, $val, $col, $more);
-        if ($lines) {
-            return $lines[0] ?? null;
-        }
-        else {
-            return null;
-        }
+        return $lines[0] ?? null;
     }
 
     static function update ($table, $id, $data)
@@ -221,6 +238,8 @@ class model
         try {
             $pdo = sqlite::pdo();
             $pdost = $pdo->prepare($sqlp);
+            // print_r($sqlp);
+            // print_r($data);
             if ($pdost->execute($data)) {
                 model::debug($pdost);
 
@@ -233,6 +252,7 @@ class model
         }
         return false;
     }
+
     static function debug ($pdost)
     {
         ob_start();

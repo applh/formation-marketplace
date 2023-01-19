@@ -213,9 +213,7 @@ class cli
         // and for each file, check if it exists a line in table media at column media
         // if not, create a line in table media
         $path_data = os::v("root") . "/$data_dir";
-        // setup path_data
-        os::v("path_data", $path_data);
-
+        os::set_path_data($path_data);
         print_r(os::$vars);
 
         $path_uploads = $path_data . "/uploads";
@@ -266,4 +264,52 @@ class cli
             }
         }
     }
+
+    static function page_add ()
+    {
+        // get parameter 3
+        $data_dir = cli::$args[2] ?? "my-data";
+
+        // list aff files in $path_data/uploads
+        // and for each file, check if it exists a line in table media at column media
+        // if not, create a line in table media
+        $path_data = os::v("root") . "/$data_dir";
+        // setup path_data
+        os::set_path_data($path_data);
+        print_r(os::$vars);
+
+        // get parameter 4
+        $uri = cli::$args[3] ?? "page-" . uniqid();
+        // get parameter 5
+        $template = cli::$args[4] ?? "post";
+
+        $title ??= $uri;
+        // create a line in table geocms
+        $data = [
+            "path" => "page",
+            "title" => $title,
+            "uri" => $uri,
+            "template" => $template,
+            "created" => date("Y-m-d H:i:s"),
+            "modified" => date("Y-m-d H:i:s"),
+        ];
+        $res = model::create1("geocms", "uri", $uri, $data);
+        if (is_array($res)) {
+            extract($res);
+            echo 
+            <<<txt
+
+            page ($id) $uri found: http://localhost:9876/$uri
+
+            txt;
+        }
+        else {
+            <<<txt
+
+            page ($id) $uri added: http://localhost:9876/$uri
+            
+            txt;
+        }
+    }
+
 }

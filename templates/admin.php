@@ -77,20 +77,9 @@
                 mixins,
                 data: () => appData,
                 async created() {
-
-                    // WARNING: REGISTER ASYNC COMPONENTS FIRST
-                    // <template id="appTemplate" data-compos="test">
-                    let appTemplate = document.querySelector('#appTemplate');
-                    let compos = appTemplate?.getAttribute("data-compos");
-                    if (compos) {
-                        compos = compos.split(' ');
-                        compos.forEach(function(name) {
-                            app.component(
-                                'o-' + name,
-                                Vue.defineAsyncComponent(() => import(`/assets/js/o-${name}.js`))
-                            );
-                        });
-                    }
+                    // weird but works: app is available in created() 
+                    // as created() is called after app.mount()
+                    this.load_components(app);
 
                     // load extra css files
                     this.extra_css.forEach(async (css) => {

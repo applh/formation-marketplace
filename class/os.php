@@ -68,6 +68,10 @@ class os
         return $ext;
     }
     
+    /**
+     * warning: use only on relative fromework path
+     * strtolower can create problems outside of framework :-/
+     */
     static function dirname_cleanup ($path)
     {
         // remove double "/", non alphanumeric characters, and replace them with "-"
@@ -89,11 +93,26 @@ class os
         $dirname ??= "";
         $filename ??= "";
         $extension ??= "";
+        $basename ??= "";
 
         $dirname = os::dirname_cleanup($dirname);
-        $filename = os::filename_cleanup($basename);
-        $extension = os::extension_cleanup($basename);
-        return "$dirname/$filename.$extension";
+        if ($basename) {
+            $filename = os::filename_cleanup($basename);
+            $extension = os::extension_cleanup($basename);
+            $res = "$dirname/$filename.$extension";
+        }
+        else {
+            $res = "$dirname";
+        }
+        return $res;
+    }
+
+    static function set_path_data ($path_data)
+    {
+        // setup path_data
+        os::v("path_data", $path_data);
+        // setup path_data/sqlite.db
+        os::v("db/sqlite/path", "$path_data/sqlite.db");
     }
 
     //_class_end_

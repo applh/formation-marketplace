@@ -42,6 +42,24 @@ let mixin = {
         } 
     },
     methods: {
+        load_components (app) {
+            // WARNING: REGISTER ASYNC COMPONENTS FIRST
+            // <template id="appTemplate" data-compos="test">
+            let appTemplate = document.querySelector('#appTemplate');
+            let compos = appTemplate?.getAttribute("data-compos");
+            if (compos) {
+                console.log('compos: ' + compos);
+                compos = compos.split(' ');
+                compos.forEach(function(name) {
+                    console.log('register async component: ' + name);
+                    app.component(
+                        'o-' + name,
+                        Vue.defineAsyncComponent(() => import(`/assets/js/o-${name}.js`))
+                    );
+                });
+            }
+
+        },
         async load_js(url, async = true) {
             let el = document.createElement('script');
 
