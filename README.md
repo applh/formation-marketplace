@@ -230,6 +230,14 @@ php framework.php web 9876
     * add Vue form change website
     * add Vue form change birthday
 
+# V0.3.1 VIDEO SLIDEHOW TEMPLATE
+
+* add better background video frame animation
+  * tip: after updating video.currentTime, wait for video.canplaythrough event
+  * video image is not updated immediately after video.currentTime update
+  * wait can take x10ms to x100ms depending on video size and browser
+    * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/canplaythrough_event
+
 
 ## CREDITS
 
