@@ -2,7 +2,19 @@
 
 // retrieve video filename
 $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
-
+$json = $_REQUEST["json"] ?? "";
+if ($json) {
+    $json = os::path_cleanup($json);
+    $path_data = os::v("path_data");
+    $path_json = "$path_data/$json";
+    if (file_exists($path_json)) {
+        $json_code = file_get_contents($path_json);
+        $contents = json_decode($json_code, true);
+        if (is_array($contents)) {
+            extract($contents);
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -197,23 +209,24 @@ $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
             text-align: center;
             text-shadow: 0 0 0.25rem #000;
             display: block;
-            width: 60vw;
         }
 
         .slide p {
-            font-size: 2vw;
+            font-size: <?php echo ($textsize ?? "2vw") ?>;
             margin: 0;
             padding: 2rem 4rem;
             color: white;
             text-align: left;
-            background: linear-gradient(150deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%);
+            background: <?php echo ($textbg ?? "linear-gradient(150deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%) ") ?>;
             display: block;
-            width: 60vw;
+            line-height: <?php echo ($lineheight ?? 1.5) ?>;
         }
 
         .slide img {
-            max-width: 60vw;
             display: block;
+        }
+        .slide h3, .slide p, .slide img {
+            max-width: <?php echo ($slidewidth ?? '60vw') ?>;
         }
     </style>
 </head>
@@ -225,60 +238,39 @@ $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
     </video>
 
     <div class="slide">
+        <?php foreach(($sections ?? []) as $section): ?>
+            <?php 
+                $titlestyle = $section["titlestyle"] ?? "";
+                $mediastyle = $section["mediastyle"] ?? "";
+                $textstyle = $section["textstyle"] ?? "";
+                $media = $section["media"] ?? "";
+
+                extract($section); 
+            ?>
+            <?php $ptext =  $text ?? implode("<br>", $lines ?? []) ?>
         <section>
-            <h3>section 1</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
+            <h3 style="<?php echo $titlestyle ?>"><?php echo $title ?? "" ?></h3>
+            <?php if ($media): ?>
+                <img src="<?php echo $media ?>" alt="..." style="<?php echo $mediastyle ?>">
+            <?php endif ?>
+            <p><?php echo $ptext ?? "" ?></p>
         </section>
-        <section>
-            <h3>section 2</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 3</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 4</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 5</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 6</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 7</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
-        <section>
-            <h3>section 8</h3>
-            <img src="/assets/media/photo-1.jpg" alt="...">
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est dolores non harum quod, molestiae sed aliquam facere iure maxime dicta earum cum porro. In tenetur perspiciatis magni facilis, quidem deserunt!</p>
-        </section>
+        <?php endforeach ?>
     </div>
 
     <div class="hud">
-        <span id="ct">...</span>
-        <span id="cpt">?</span>
+        <span id="ct"></span>
+        <span id="cpt">+</span>
     </div>
     <script type="module">
-        let dy = 2;
+        let debug = <?php echo ($debug ?? 'false') ?>;
+        let dy = <?php echo ($dy ?? 2) ?>;
         let scale = 8;
         let vid = document.getElementById("my-video");
         window.frame_ok = false;
         vid.addEventListener('canplaythrough', function() {
             console.log("canplaythrough");
-            document.querySelector('#cpt').innerHTML = '+';
+            document.querySelector('#cpt').innerHTML = '🔥';
             window.frame_ok = true;
         });
         vid.addEventListener('waiting', (event) => {
@@ -300,7 +292,8 @@ $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
             document.querySelector('#cpt').innerHTML = '-';
 
             // console.log("go2:" + vid.currentTime);
-            ct.innerHTML = [nb_click, nb_frames, scale, currentTime, duration].join(' / ');
+            if (debug) 
+                ct.innerHTML = [nb_click, nb_frames, scale, currentTime, duration].join(' / ');
 
             // reduce video scale by 0.1
             let scale2 = Math.max(1, scale - 0.5 * (nb_click / nb_frames)).toFixed(6);
@@ -312,7 +305,7 @@ $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
             // slide up by 1
             let slide = document.querySelector(".slide");
             let slide_top = Math.min(0, slide.offsetTop - 1);
-            slide.style.top = (-nb_click * dy) + "px";
+            slide.style.top = Math.round(-nb_click * dy) + "px";
 
             nb_click++;
 
@@ -325,5 +318,9 @@ $video = $_REQUEST["src"] ?? "/byterange?src=/assets/media/video-01.mp4";
         window.video_play = function(rate = 30) {
             setInterval(frame_next, 1000 / rate);
         }
+
+        // put json code in a global variable for playwright access
+        window.slide = <?php echo($json_code  ?? "{}") ?>;
+
     </script>
 </body>
