@@ -107,6 +107,20 @@ class api_public
         web::extra("posts", $posts);
     }
 
+    static function register ()
+    {
+        // get inputs
+        form::process("register");
+        // web::extra("feedback", "Register... " . implode(", ", $_REQUEST));
+    }
+
+    static function login ()
+    {
+        form::process("login");
+        // web::extra("feedback", "Login... " . implode(", ", $_REQUEST));
+
+    }
+
     //_class_end_
 }
 

@@ -115,6 +115,14 @@ class os
         os::v("db/sqlite/path", "$path_data/sqlite.db");
     }
 
+    static function now ()
+    {
+        static $now = null;
+        if ($now === null) {
+            $now = date("Y-m-d H:i:s");
+        }
+        return $now;
+    }
     //_class_end_
 }
 

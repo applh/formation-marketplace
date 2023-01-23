@@ -86,10 +86,8 @@
                         await this.load_css(css);
                     });
 
-                    // load extra js files
-                    this.extra_js.forEach(async (js) => {
-                        await this.load_js(js);
-                    });
+                    // load extra js files in order
+                    this.load_js_order(this.extra_js);
 
                     // load posts from api
                     let data = new FormData();

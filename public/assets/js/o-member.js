@@ -1,5 +1,13 @@
 let panel_default =
 `
+<section>
+    <h2>login</h2>
+    <o-form name="login"></o-form>  
+</section>
+<section>
+    <h2>register</h2>
+    <o-form name="register"></o-form>  
+</section>
 `
 
 let template =

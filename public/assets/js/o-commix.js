@@ -14,7 +14,8 @@ let common = Vue.reactive({
     update_forms: {},
     create_forms: {},
     options: {},
-
+    forms: {},
+    api_url: '/api',
 });
 
 // add event listener on window resize
@@ -60,12 +61,44 @@ let mixin = {
             }
 
         },
+        async load_js_order(urls=[], index = 0) {
+            if (index >= urls.length) {
+                return;
+            }
+
+            let url = urls[index] ?? '';
+            if (url) {
+                let el = document.createElement('script');
+
+                el.setAttribute('src', url);
+                el.setAttribute('type', 'text/javascript');
+                // el.setAttribute('async', async);
+                // defer
+                el.setAttribute('defer', true);
+
+                document.body.appendChild(el);
+
+                // success event
+                el.addEventListener('load', () => {
+                    console.log('File loaded: ' + url)
+                    this.load_js_order(urls, index + 1);
+                });
+                // error event
+                el.addEventListener('error', (e) => {
+                    console.log('Error on loading file: ' + url, e);
+                    this.load_js_order(urls, index + 1);
+                });
+
+            }
+        },
         async load_js(url, async = true) {
             let el = document.createElement('script');
 
             el.setAttribute('src', url);
             el.setAttribute('type', 'text/javascript');
-            el.setAttribute('async', async);
+            // el.setAttribute('async', async);
+            // defer
+            el.setAttribute('defer', true);
 
             document.body.appendChild(el);
 
@@ -97,6 +130,19 @@ let mixin = {
         },
         test2 (msg='') {
             // console.log('o-commix test2: ' + msg);
+        },
+        async load_form(form_name) {
+            // check if form is already loaded in common.forms
+            if (common.forms[form_name]) {
+                console.log('form already loaded: ' + form_name);
+                return common.forms[form_name];
+            }
+            else {
+                console.log('load form: ' + form_name);
+                let form = await import(`/assets/js/form-${form_name}.js`);
+                common.forms[form_name] = form.default;
+                return form.default;
+            }
         },
     },
     common, // hack: to make common available in setup() but not in data()
