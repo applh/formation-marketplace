@@ -109,6 +109,12 @@ class web
         return $value;
     }
 
+    static function input_array ($name, $default = [])
+    {
+        $value = $_REQUEST[$name] ?? $default;
+        return $value;
+    }
+
     static function input_file ($name, $default = "")
     {
         $value = $default;

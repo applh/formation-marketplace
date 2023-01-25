@@ -194,6 +194,65 @@ class api_admin
         }
 
     }
+
+    static function form ()
+    {
+        // get action, table
+        $action = web::input("action");
+        // if action is create then create form
+        if ($action == "create") {
+            // get table
+            $table = "form";
+            // get model info
+            $form_inputs = cms::get($table);
+            // add form inputs to web extra
+            web::extra("form_create", $form_inputs);
+
+            // get inputs by form_inputs
+            $inputs = [];
+            foreach ($form_inputs as $input) {
+                $name = $input["name"];
+                $type = $input["type"];
+                // if type is file then get file
+                if ($type == "array") {
+                    $val = web::input_array($name);
+                } else {
+                    $val = web::input($name);
+                }
+                $inputs[$name] = $val;
+            }
+            // remove id if present
+            unset($inputs["id"]);
+            $cud_table = cms::cud_table($table);
+
+            $form_name = $inputs["form_name"];
+            if ($form_name) {
+                // for each input create item
+                $contents = [
+                    "name" => $form_name,
+                ];
+                $fields = [];
+                foreach ($inputs["inputs"] as $index => $input) {
+                    $name = "";
+                    $type = "";
+                    $infos = json_decode($input, true);
+                    $fields[] = $infos;
+                }
+                $contents["inputs"] = $fields;
+                // create item
+                $data = array(
+                    "path" => "form",
+                    "filename" => $form_name,
+                    "uri" => "form/$form_name",
+                    "content" => json_encode($contents, JSON_PRETTY_PRINT),
+                    "code" => $inputs["process_response"] ?? "",
+                );
+                model::create1($cud_table, "uri", "form/$form_name", $data);
+            }
+    }
+
+    }
+
     //_class_end_
 }
 

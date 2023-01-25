@@ -20,6 +20,7 @@ class cms
         "post"  => "geocms",
         "page"  => "geocms",
         "media"  => "geocms",
+        "form"  => "geocms",
     ];
 
     static function add ($name, $model)
@@ -344,5 +345,22 @@ cms::add("media", $model_media);
 cms::add("user", $model_user);
 cms::add("contact", $model_contact);
 cms::add("task", $model_task);
+
+$model_form = [
+    [
+        "name" => "form_name",
+        "type" => "text",
+    ],
+    [
+        "name" => "process_response",
+        "type" => "text",
+    ],
+    [
+        "name" => "inputs",
+        "type" => "array",
+    ],
+
+];
+cms::add("form", $model_form);
 
 //_file_end_

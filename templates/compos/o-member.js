@@ -1,13 +1,26 @@
 let panel_default =
 `
-<section>
-    <h2>login</h2>
-    <o-form name="login"></o-form>  
-</section>
-<section>
-    <h2>register</h2>
-    <o-form name="register"></o-form>  
-</section>
+<div v-if="center.login_ok == false">
+    <section>
+        <h2>login</h2>
+        <o-form name="login"></o-form>  
+    </section>
+    <section>
+        <h2>register</h2>
+        <o-form name="register"></o-form>  
+    </section>
+</div>
+<div v-else class="uk-container">
+    <h3>Welcome</h3>
+    <p>{{ center.api_user_key }}</p>
+    <button @click="act_logout">logout</button>
+    <h3>Your Posts ({{ posts.length }})</h3>
+    <div v-for="post in posts">
+        <p>{{ post.title }}</p>
+    </div>
+    <o-form name="user-post-create"></o-form>  
+
+</div>
 `
 
 let template =
@@ -44,8 +57,30 @@ let template =
 let commix = await import('/mjs?compo=o-commix');
 let mixins = [ commix.default.mixin ]; // warning: must add .default
 
+let data_compo = {
+    posts: []
+}
+
+let created = function() {
+    // load api_user_key from local storage
+    this.center.api_user_key = localStorage.getItem('api_user_key');
+    if (this.center.api_user_key) {
+        this.center.login_ok = true;
+    }
+}
+
+let methods = {
+    act_logout: function() {
+        this.center.api_user_key = null;
+        localStorage.removeItem('api_user_key');
+        this.center.login_ok = false;
+    },
+}
 
 export default {
     template,
     mixins,
+    data: () => JSON.parse(JSON.stringify(data_compo)),
+    methods,
+    created,
 }

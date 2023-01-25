@@ -253,9 +253,21 @@ php framework.php web 9876
 * add subfolders compos and forms for vue components modules and forms modules
 * form front and back are centralized in the db table geocms with path `form`and `form/input`
 
+# V0.3.5 ADMIN FORM BUILDER
 
+* add admin form builder
+  * drag and drop fields order
+  * add/remove fields
+  * so easy with Uikit Sortable and Vue 😎
+   
+* simplify form infos in db table geocms
+  * only one SQL line for complete form infos
+  * content column is a JSON string
+  * process_response in separated column code to keep easier coding
 
-
+* debug and improvements
+    * debug o-commix import (remove .js extension)
+  
 ## CREDITS
 
 * Thanks to Pexels for the free images and videos

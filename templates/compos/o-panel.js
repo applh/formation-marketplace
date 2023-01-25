@@ -30,6 +30,9 @@ let panel_default =
         <div class="uk-width-1-2">
             <o-crud title="media" table="media"></o-crud>
         </div> 
+        <div class="uk-width-1-1">
+            <o-admin-form-builder></o-admin-form-builder>
+        </div> 
     </div>
 
     <div class="uk-width-1-2">
@@ -93,7 +96,7 @@ let template =
 
 
 // mixins
-let commix = await import('/mjs?compo=o-commix.js');
+let commix = await import('/mjs?compo=o-commix');
 let mixins = [ commix.default.mixin ]; // warning: must add .default
 
 let methods = {

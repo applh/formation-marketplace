@@ -4,13 +4,14 @@ let template =
     <h3>{{ f.title }}</h3>
     <div v-for="input in f.inputs">
         <label class="uk-form-label">{{ input.label }}</label>
-        <input :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required" v-model="input.value" class="uk-input">
+        <textarea v-if="input.type=='textarea'" :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required" v-model="input.value" class="uk-textarea"></textarea>
+        <input v-else :name="input.name" :type="input.type" :placeholder="input.placeholder" :required="input.required" v-model="input.value" class="uk-input">
     </div>
     <button type="submit">Submit</button>
     <div>{{ feedback }}</div>
 </form>
 `
-let commix = await import('/mjs?compo=o-commix.js');
+let commix = await import('/mjs?compo=o-commix');
 let mixins = [commix.default.mixin]; // warning: must add .default
 
 
@@ -42,8 +43,15 @@ let methods = {
         console.log(json);
         this.feedback = json.feedback ?? '';
         if (this.f.process_response) {
-            this.f.process_response(json);
+            this.f.process_response(json, this);
         }
+    }
+}
+
+let watch = {
+    name: async function (new_name, old_name) {
+        console.log('o-form watch name', new_name, old_name);
+        this.f = await this.load_form(new_name);
     }
 }
 
@@ -53,5 +61,6 @@ export default {
     mixins,
     created,
     data: () => JSON.parse(JSON.stringify(data_compo)),
+    watch,
     methods,
 }

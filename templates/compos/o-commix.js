@@ -1,4 +1,4 @@
-console.log('o-commix.js loaded');
+console.log('o-commix loaded');
 
 import * as Vue from '/assets/js/vue.esm-browser.prod.min.js';
 
@@ -17,6 +17,8 @@ let common = Vue.reactive({
     forms: {},
     api_url: '/api',
     mjs_url: '/mjs',
+    login_ok: false,
+    api_user_key: '',
 });
 
 // add event listener on window resize

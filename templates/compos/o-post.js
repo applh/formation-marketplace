@@ -28,7 +28,7 @@ let template =
 
 
 // mixins
-let commix = await import('/mjs?compo=o-commix.js');
+let commix = await import('/mjs?compo=o-commix');
 let mixins = [ commix.default.mixin ]; // warning: must add .default
 
 

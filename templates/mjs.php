@@ -24,39 +24,14 @@ if ($compo) {
 
 if ($active) {
     // load the form infos
-    $form_infos = model::read("geocms", $active, "filename");
+    $form_infos = model::read1("geocms", "form/$active", "uri");
     //error_log(json_encode($form_infos, JSON_PRETTY_PRINT));
-
-    // build form infos
-    $inputs = [];
-    foreach($form_infos as $form_info) {
-        // if path is form/input then add input to form
-        extract($form_info);
-        $path ??= "";
-        if ($path == "form") {
-            $form_title = $title ?? "";
-            $form_process = $code ?? "";
-        }
-
-        if ($path == "form/input") {
-            unset($value);
-            extract(json_decode($code ?? "{}", true));
-            $input = [
-                "name" => $name ?? "",
-                "type" => $type ?? "text",
-                "label" => $label ?? "",
-                "placeholder" => $placeholder ?? "",
-                "required" => $required ?? false,
-                "value" => $value ?? "",
-            ];
-            $inputs[] = $input;
-        }
-    }
+    $contents = json_decode($form_infos["content"] ?? "", true);
 
     $form_active = [
-        "title" => $form_title ?? $active,
-        "inputs" => $inputs,
-        "process_response" => $form_process ?? "",
+        "title" => $contents["name"] ?? $active,
+        "inputs" => $contents["inputs"] ?? [],
+        "process_response" => $form_infos["code"] ?? ""
     ];
 
     // header content-type text/javascript

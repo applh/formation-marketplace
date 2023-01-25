@@ -1,4 +1,4 @@
-let process_response = function (json) {
+let process_response = function (json, compo) {
     
     console.log('process_response', json);
     

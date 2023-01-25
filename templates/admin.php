@@ -39,7 +39,7 @@
     <!-- add vuejs 3 app -->
     <div class="box-vue">
         <div id="app"></div>
-        <template id="appTemplate" data-compos="panel sidebar crud geocms post post-crud test">
+        <template id="appTemplate" data-compos="admin-form-builder form panel sidebar crud geocms post post-crud test">
             <o-panel></o-panel>
         </template>
     </div>
