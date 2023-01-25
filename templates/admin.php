@@ -51,7 +51,7 @@
             // better way to load Vue ?
             let Vue = await import('/assets/js/vue.esm-browser.prod.min.js');
 
-            let commix = await import('/assets/js/o-commix.js');
+            let commix = await import('/mjs?compo=o-commix');
             let mixins = [commix.default.mixin]; // warning: must add .default
 
             // create vue app

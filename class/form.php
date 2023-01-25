@@ -13,60 +13,68 @@ class form
 {
     //_class_start_
 
-    static $forms = [
-        "register" => [
-            [
-                "name" => "username",
-                "type" => "text",
-                "val" => "",
-            ],
-            [
-                "name" => "email",
-                "type" => "email",
-                "val" => "",
-            ],
-            [
-                "name" => "password",
-                "type" => "password",
-                "val" => "",
-            ]
-        ],
-        "login" => [
-            [
-                "name" => "email",
-                "type" => "email",
-                "val" => "",
-            ],
-            [
-                "name" => "password",
-                "type" => "password",
-                "val" => "",
-            ]
-        ]
-    ];
+    // static $forms = [
+    //     "register" => [
+    //         [
+    //             "name" => "username",
+    //             "type" => "text",
+    //             "val" => "",
+    //         ],
+    //         [
+    //             "name" => "email",
+    //             "type" => "email",
+    //             "val" => "",
+    //         ],
+    //         [
+    //             "name" => "password",
+    //             "type" => "password",
+    //             "val" => "",
+    //         ]
+    //     ],
+    //     "login" => [
+    //         [
+    //             "name" => "email",
+    //             "type" => "email",
+    //             "val" => "",
+    //         ],
+    //         [
+    //             "name" => "password",
+    //             "type" => "password",
+    //             "val" => "",
+    //         ]
+    //     ]
+    // ];
 
     static function process ($form_name)
     {
-        $infos = self::$forms[$form_name] ?? [];
+        // $infos = self::$forms[$form_name] ?? [];
+        // load form infos from db
+        $infos = model::read("geocms", $form_name, "filename");
+
         $inputs = [];
         foreach($infos as $info) {
+            unset($path, $filename, $title, $code, $value);
             extract($info);
-            $type ??= "text";
-            $val ??= "";
-            $name ??= "";
-            $default ??= "";
-            $options ??= [];
-            if ($name != "") {
-                $inputs[$name] = [
-                    "val" => form::filter($_REQUEST[$name] ?? $default, $type, $options),
-                    "info" => $info,
-                ];
+            if ($path == "form/input") {
+                if ($uri != "m") {
+                    $type ??= "text";
+                    $val ??= "";
+                    $name = $uri ?? "";
+                    $default ??= "";
+                    $options ??= [];
+                    if ($name != "") {
+                        $inputs[$name] = [
+                            "val" => form::filter($_REQUEST[$name] ?? $default, $type, $options),
+                            "info" => $info,
+                        ];
+                    }    
+                }
             }
         }
 
         // post process
         $cb = "form::process_$form_name";
-        error_log($cb);
+        // error_log($cb);
         os::run("form/process/before/$form_name");
         if (is_callable($cb)) {
             $cb($inputs);
@@ -106,18 +114,20 @@ class form
         // error_log(json_encode($inputs));
 
         // check if email already exists
-        $email = $inputs["email"]["val"];
-        $user1 = model::read1("user", $email, "email");
-        // check if username already exists
-        $username = $inputs["username"]["val"];
-        $user2 = model::read1("user", $username, "username");
+        $email = $inputs["email"]["val"] ?? "";
+        $username = $inputs["username"]["val"] ?? "";
+        if ($email && $username) {
+            $user1 = model::read1("user", $email, "email");
+            // check if username already exists
+            $user2 = model::read1("user", $username, "username");    
+        }
         $errors = [];
-        if ($user1) {
+        if ($user1 ?? false) {
             // email already exists
             $errors[] = "email already exists ($email)";
             web::extra("feedback", "email already exists ($email)");
         }
-        if ($user2) {
+        if ($user2 ?? false) {
             // email already exists
             $errors[] = "username already exists ($username)";
         }
@@ -128,7 +138,7 @@ class form
             $passhash = password_hash($password, PASSWORD_DEFAULT);
 
             $user = [
-                "username" => $inputs["username"]["val"],
+                "username" => $inputs["username"]["val"] ?? "",
                 "email" => $inputs["email"]["val"],
                 "passhash" => $passhash,
                 "created" => os::now(),
@@ -167,6 +177,7 @@ class form
         }
         return $res;
     }
+
 
     //_class_end_
 }

@@ -239,6 +239,23 @@ php framework.php web 9876
     * https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/canplaythrough_event
 
 
+# V0.3.2 VIDEO SLIDEHOW TEMPLATE
+
+* add json data to video slideshow template
+
+# V0.3.3 MEMBER AREA
+
+* add member page forms: register and login
+
+# V0.3.4 MEMBER AREA
+
+* refactor js modules in PHP template mjs.php
+* add subfolders compos and forms for vue components modules and forms modules
+* form front and back are centralized in the db table geocms with path `form`and `form/input`
+
+
+
+
 ## CREDITS
 
 * Thanks to Pexels for the free images and videos

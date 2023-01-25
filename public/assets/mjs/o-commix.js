@@ -16,6 +16,7 @@ let common = Vue.reactive({
     options: {},
     forms: {},
     api_url: '/api',
+    mjs_url: '/mjs',
 });
 
 // add event listener on window resize
@@ -55,7 +56,7 @@ let mixin = {
                     console.log('register async component: ' + name);
                     app.component(
                         'o-' + name,
-                        Vue.defineAsyncComponent(() => import(`/assets/js/o-${name}.js`))
+                        Vue.defineAsyncComponent(() => import(`${common.mjs_url}?compo=o-${name}`))
                     );
                 });
             }
@@ -139,7 +140,8 @@ let mixin = {
             }
             else {
                 console.log('load form: ' + form_name);
-                let form = await import(`/assets/js/form-${form_name}.js`);
+                // let form = await import(`/assets/js/form-${form_name}.js`);
+                let form = await import(`/mjs?form=${form_name}`);
                 common.forms[form_name] = form.default;
                 return form.default;
             }

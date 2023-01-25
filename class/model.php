@@ -246,7 +246,7 @@ class model
                 return $pdost;
             }
         } catch (Exception $e) {
-            model::debug($pdost);
+            model::debug($pdost ?? null);
             error_log($e->getMessage());
             error_log(json_encode($data, JSON_PRETTY_PRINT));
         }

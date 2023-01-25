@@ -304,12 +304,158 @@ class cli
             txt;
         }
         else {
+            echo 
             <<<txt
 
-            page ($id) $uri added: http://localhost:9876/$uri
+            page ($res) $uri added: http://localhost:9876/$uri
             
             txt;
         }
+    }
+
+    static function install_db_forms ()
+    {
+        error_log("cli::install_db_forms");
+        // get parameter 3
+        $data_dir = cli::$args[2] ?? "my-data";
+
+        // list aff files in $path_data/uploads
+        // and for each file, check if it exists a line in table media at column media
+        // if not, create a line in table media
+        $path_data = os::v("root") . "/$data_dir";
+        // setup path_data
+        os::set_path_data($path_data);
+
+        // add lines in db
+        // form: register, login
+        $data = [
+            "path" => "form",
+            "filename" => "register",
+            "title" => "Register",
+        ];
+        model::create1("geocms", "filename", "register", $data);
+
+        $process = <<<js
+
+        // check if user api key is set
+        if (json.user_api_key) {
+            // store in local storage
+            localStorage.setItem('user_api_key', json.user_api_key);
+        }
+        
+        js;
+
+        $data = [
+            "path" => "form",
+            "filename" => "login",
+            "title" => "Login",
+            "process" => $process,
+        ];
+        model::create1("geocms", "filename", "login", $data);
+
+        // LOGIN
+        $data = [
+            "path" => "form/input",
+            "filename" => "login",
+            "uri" => "email",
+            "tags" => "form/input/login/email",
+            "code" => json_encode([
+                "type" => "text",
+                "name" => "email",
+                "label" => "email",
+                "placeholder" => "email",
+                "required" => true,
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/login/email", $data);
+        $data = [
+            "path" => "form/input",
+            "filename" => "login",
+            "uri" => "password",
+            "tags" => "form/input/login/password",
+            "code" => json_encode([
+                "type" => "password",
+                "name" => "password",
+                "label" => "password",
+                "placeholder" => "password",
+                "required" => true,
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/login/password", $data);
+        $data = [
+            "path" => "form/input",
+            "filename" => "login",
+            "uri" => "m",
+            "tags" => "form/input/login/m",
+            "code" => json_encode([
+                "type" => "hidden",
+                "name" => "m",
+                "value" => "login",
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/login/m", $data);
+
+        // REGISTER
+        // email
+        $data = [
+            "path" => "form/input",
+            "filename" => "register",
+            "uri" => "email",
+            "tags" => "form/input/register/email",
+            "code" => json_encode([
+                "type" => "text",
+                "name" => "email",
+                "label" => "email",
+                "placeholder" => "email",
+                "required" => true,
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/register/email", $data);
+
+        // username
+        $data = [
+            "path" => "form/input",
+            "filename" => "register",
+            "uri" => "username",
+            "tags" => "form/input/register/username",
+            "code" => json_encode([
+                "type" => "text",
+                "name" => "username",
+                "label" => "username",
+                "placeholder" => "username",
+                "required" => true,
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/register/username", $data);
+
+        // password
+        $data = [
+            "path" => "form/input",
+            "filename" => "register",
+            "uri" => "password",
+            "tags" => "form/input/register/password",
+            "code" => json_encode([
+                "type" => "password",
+                "name" => "password",
+                "label" => "password",
+                "placeholder" => "password",
+                "required" => true,
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/register/password", $data);
+        $data = [
+            "path" => "form/input",
+            "filename" => "register",
+            "uri" => "m",
+            "tags" => "form/input/register/m",
+            "code" => json_encode([
+                "type" => "hidden",
+                "name" => "m",
+                "value" => "register",
+            ], JSON_PRETTY_PRINT),
+        ];
+        model::create1("geocms", "tags", "form/input/register/m", $data);
+
     }
 
 }
