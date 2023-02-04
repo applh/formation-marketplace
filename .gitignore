@@ -1,6 +1,8 @@
 my-*
 
-/vendor/
+composer.lock
+vendor/
+
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -10,3 +12,4 @@ storage/*.key
 .phpunit.result.cache
 
 .DS_Store
+
