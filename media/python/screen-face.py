@@ -33,7 +33,9 @@ eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
 
 
 sct = mss()
-print(sct.monitors)
+# print each monitor
+for i, m in enumerate(sct.monitors):
+    print(i, m)
 
 monitor_number = 2
 mon = sct.monitors[monitor_number]

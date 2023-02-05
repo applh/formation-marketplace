@@ -39,6 +39,7 @@ ffmpeg -f avfoundation -i "2" -pix_fmt uyvy422 -c:v libvpx-vp9 -crf 0 -vf fps=30
 # NOT WORKING
 ffmpeg -f avfoundation -framerate 30 -i "2" -pix_fmt uyvy422 -c:v libvpx-vp9 -crf 0 -vf fps=30 -f webm -f segment -segment_time 10 -reset_timestamps 1 -segment_list my-out/catfile.ffcat my-out/put-$(date +%y%m%d-%H%M%S)-%03d.webm
 
+```
 
 ## RECORD SCREEN ON MACOS
 
@@ -47,9 +48,24 @@ ffmpeg -f avfoundation -framerate 30 -i "2" -pix_fmt uyvy422 -c:v libvpx-vp9 -cr
 ffmpeg -f avfoundation -pix_fmt uyvy422 -i "2" -f webm my-out/rec-$(date +%y%m%d-%H%M%S).webm
 
 # record 1 min 
-ffmpeg -f avfoundation -pix_fmt uyvy422 -i "2" -f webm -t 00:01:00 my-out/rec-$(date +%y%m%d-%H%M%S).webm
+ffmpeg -f avfoundation -pix_fmt uyvy422 -i "2" -crf 50 -f webm -t 00:01:00 my-out/rec-$(date +%y%m%d-%H%M%S).webm
 
 # loop 100 times
-for i in {1..100}; do ffmpeg -f avfoundation -pix_fmt uyvy422 -i "2" -f webm -t 00:01:00 my-out/rec-$(date +%y%m%d-%H%M%S).webm; done
+for i in {1..100}; do ffmpeg -f avfoundation -pix_fmt uyvy422 -i "2" -crf 50 -f webm -t 00:10:00 my-out/rec-$(date +%y%m%d-%H%M%S).webm; done
 
 ```
+
+## object detection
+
+https://pyimagesearch.com/blog/
+
+### tensorflow
+
+```
+
+https://github.com/tensorflow/models/blob/master/research/object_detection/utils/visualization_utils.py
+
+```
+
+
+
