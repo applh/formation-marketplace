@@ -4,12 +4,12 @@ import imutils
 import datetime
 from PIL import Image, ImageFilter
 
-movie_file = 'my-out/movie4.webm'
+movie_file = 'my-out/movie7.webm'
 
 # define fps
 fps = 3 # 30
 
-mini = 512
+mini = 1024 # 512 # 256 # 512
 zeros = np.zeros((mini, mini), dtype="uint8")
 
 def read_movie (movie_file):
@@ -130,8 +130,12 @@ def parse_frame (frame, out):
     # save frame to movie
     # frame_add(out, frame3)
 
+    # https://pillow.readthedocs.io/en/latest/reference/index.html
+    # https://realpython.com/image-processing-with-the-python-pillow-library/
     # frame2 find edge with PIL filter FIND_EDGES
     frame_edge = Image.fromarray(frame2)
+    frame_edge = frame_edge.convert('L')
+    # frame_edge = frame_edge.filter(ImageFilter.SMOOTH)
     frame_edge = frame_edge.filter(ImageFilter.FIND_EDGES)
     frame_edge = np.array(frame_edge)
     cv2.imshow('frame_edge',frame_edge)
@@ -156,12 +160,12 @@ cv2.namedWindow('blue', cv2.WINDOW_NORMAL)
 cv2.namedWindow('green', cv2.WINDOW_NORMAL)
 cv2.namedWindow('red', cv2.WINDOW_NORMAL)
 
-cv2.moveWindow('frame2', 0, 10) 
-cv2.moveWindow('frame3', 600, 10) 
-cv2.moveWindow('frame_edge', 1200, 10) 
+cv2.moveWindow('frame2', 0, 0) 
+cv2.moveWindow('frame3', 550, 0) 
+cv2.moveWindow('frame_edge', 1100, 0) 
 cv2.moveWindow('blue', 000, 550) 
-cv2.moveWindow('green', 600, 550) 
-cv2.moveWindow('red', 1200, 550) 
+cv2.moveWindow('green', 550, 550) 
+cv2.moveWindow('red', 1100, 550) 
 
 read_movie(movie_file)
 
